@@ -5,6 +5,20 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot", "Twittoot\Twittoot.csproj", "{D8A6DA0F-5DD3-45F0-82E5-0719A4875CBB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Wrappers", "API Wrappers", "{CA699BA5-B852-4000-A0AB-9E5C49E2725E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Twitter", "Twittoot.Twitter\Twittoot.Twitter.csproj", "{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Mastodon", "Twittoot.Mastodon\Twittoot.Mastodon.csproj", "{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{C11A4E35-30C2-4335-92A6-BD0D032A42BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Domain", "Twittoot.Domain\Twittoot.Domain.csproj", "{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{945F9205-B57B-4483-90A4-0CC2751AC33B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Twitter.Tests", "Tests\Twittoot.Twitter.Tests\Twittoot.Twitter.Tests.csproj", "{6C9E99FF-E1C8-4763-A107-EB3B83401EC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +29,31 @@ Global
 		{D8A6DA0F-5DD3-45F0-82E5-0719A4875CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8A6DA0F-5DD3-45F0-82E5-0719A4875CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8A6DA0F-5DD3-45F0-82E5-0719A4875CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE} = {CA699BA5-B852-4000-A0AB-9E5C49E2725E}
+		{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75} = {CA699BA5-B852-4000-A0AB-9E5C49E2725E}
+		{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1} = {C11A4E35-30C2-4335-92A6-BD0D032A42BE}
+		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0} = {945F9205-B57B-4483-90A4-0CC2751AC33B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80914C9C-1687-464E-8DCF-4174FCA9DD2E}
