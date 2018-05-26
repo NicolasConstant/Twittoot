@@ -12,5 +12,12 @@ namespace Twittoot.Twitter.Tests.Repositories
             var repo = new TwitterSettingsRepository();
             var devApiSettings = repo.GetTwitterDevApiSettings();
         }
+
+        [TestMethod]
+        public void GetTwitterUserApiSettings()
+        {
+            var repo = new TwitterSettingsRepository();
+            var userApiSettings = repo.GetTwitterUserApiSettings();
+        }
     }
 }

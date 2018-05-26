@@ -3,12 +3,14 @@ using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 using Twittoot.Twitter.Settings;
+using Twittoot.Twitter.Tools;
 
 namespace Twittoot.Twitter.Repositories
 {
     public class TwitterSettingsRepository
     {
         private const string DevSettingsFileName = "Settings.Dev.json";
+        private const string UserSettingsFileName = "Settings.User.json";
         private readonly TwitterDevApiSettings _defaultDevSettings = new TwitterDevApiSettings
         {
             ConsumerKey = "provide consumer key",
@@ -38,7 +40,30 @@ namespace Twittoot.Twitter.Repositories
 
         public TwitterUserApiSettings GetTwitterUserApiSettings()
         {
-            throw new NotImplementedException();
+            var executingAsmDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var expectedUserSettingPath = Path.Combine(executingAsmDir, UserSettingsFileName);
+
+            if (File.Exists(expectedUserSettingPath))
+            {
+                var fileContent = File.ReadAllText(expectedUserSettingPath);
+                var userSettings = JsonConvert.DeserializeObject<TwitterUserApiSettings>(fileContent);
+                return userSettings;
+            }
+            else
+            {
+                var pinAuthenticator = new PinAuthenticator(GetTwitterDevApiSettings());
+                var creds = pinAuthenticator.GetTwitterCredentials();
+
+                var userSettings = new TwitterUserApiSettings
+                {
+                    AccessToken = creds.AccessToken,
+                    AccessTokenSecret = creds.AccessTokenSecret
+                };
+                
+                var json = JsonConvert.SerializeObject(userSettings);
+                File.WriteAllText(expectedUserSettingPath, json);
+                return userSettings;
+            }
         }
     }
 }
