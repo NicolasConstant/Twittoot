@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,13 +54,24 @@ namespace Twittoot.Twitter.Oauth
         private void webBrowser_Navigated(object sender, NavigationEventArgs e)
         {
             dynamic doc = webBrowser.Document;
-            var htmlText = doc.documentElement.InnerHtml;
-
-            //string HTML = webBrowser.InvokeScript(@"document.getElementsByTagName ('html')[0].innerHTML").ToString();
+            var htmlText = doc.documentElement.InnerHtml; //Strangely needed to get OnLoadCompleted functionnal
         }
 
-        private void webBrowser_Navigating(object sender, NavigatingCancelEventArgs e)
+        private void WebBrowser_OnLoadCompleted(object sender, NavigationEventArgs e)
         {
+            var wb = (WebBrowser)sender;
+            var codeElement = (wb.Document as dynamic).GetElementsByTagName("code")[0];
+
+            if (codeElement == null) return;
+
+            var code = codeElement.IHTMLElement_innerHTML;
+
+            if (string.IsNullOrWhiteSpace(code)) return;
+
+            Code = code;
+            Close();
         }
+
+        public string Code { get; set; }
     }
 }

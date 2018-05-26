@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Tweetinvi;
 using Tweetinvi.Models;
+using Twittoot.Twitter.Oauth;
 using Twittoot.Twitter.Settings;
 
 namespace Twittoot.Twitter.Tools
@@ -26,13 +27,13 @@ namespace Twittoot.Twitter.Tools
             var authenticationContext = AuthFlow.InitAuthentication(appCredentials);
 
             // Go to the URL so that Twitter authenticates the user and gives him a PIN code.
-            Process.Start(authenticationContext.AuthorizationURL);
-
-            // Ask the user to enter the pin code given by Twitter
-            var pinCode = Console.ReadLine();
+            var window = new TwitterOauth(authenticationContext.AuthorizationURL);
+            window.ShowDialog();
+            
+            if(string.IsNullOrWhiteSpace(window.Code)) throw new Exception("User didn't succeed login");
 
             // With this pin code it is now possible to get the credentials back from Twitter
-            var userCredentials = AuthFlow.CreateCredentialsFromVerifierCode(pinCode, authenticationContext);
+            var userCredentials = AuthFlow.CreateCredentialsFromVerifierCode(window.Code, authenticationContext);
             return userCredentials;
 
             // Use the user credentials in your application
