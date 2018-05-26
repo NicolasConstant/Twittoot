@@ -110,6 +110,7 @@
     <Compile Include="Oauth\TwitterOauth.xaml.cs">
       <DependentUpon>TwitterOauth.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\TwitterSettingsRepository.cs" />
     <Compile Include="Settings\TwitterDevApiSettings.cs" />
     <Compile Include="Settings\TwitterUserApiSettings.cs" />
     <Compile Include="Tools\PinAuthenticator.cs" />

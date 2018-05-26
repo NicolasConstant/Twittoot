@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Oauth\TwitterOauthTests.cs" />
+    <Compile Include="Repositories\TwitterSettingsRepositoryTests.cs" />
     <Compile Include="Tools\PinAuthenticatorTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
