@@ -127,5 +127,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Twittoot.Common\Twittoot.Common.csproj">
+      <Project>{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}</Project>
+      <Name>Twittoot.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
