@@ -53,6 +53,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Twittoot.Domain\Twittoot.Domain.csproj">
+      <Project>{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1}</Project>
+      <Name>Twittoot.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twittoot.Domain.Models;
 
 namespace Twittoot.Domain
 {
@@ -20,7 +21,7 @@ namespace Twittoot.Domain
             throw new NotImplementedException();
         }
 
-        public void ListAllAccounts()
+        public SyncAccount[] GetAllAccounts()
         {
             throw new NotImplementedException();
         }

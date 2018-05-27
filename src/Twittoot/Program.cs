@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twittoot.Domain;
 using Twittoot.Logic;
 
 namespace Twittoot
@@ -16,7 +17,7 @@ namespace Twittoot
                 var intro = new IntroDisplay();
                 intro.Run();
 
-                var logic = new TwittootLogic();
+                var logic = new TwittootLogic(new TwittootService());
                 logic.Run();
             }
             catch (Exception e)
