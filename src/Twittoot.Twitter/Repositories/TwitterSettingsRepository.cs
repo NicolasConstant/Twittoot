@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
+using Twittoot.Common;
 using Twittoot.Twitter.Settings;
 using Twittoot.Twitter.Tools;
 
@@ -25,7 +26,7 @@ namespace Twittoot.Twitter.Repositories
 
         public TwitterDevApiSettings GetTwitterDevApiSettings()
         {
-            var executingAsmDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var executingAsmDir = TwittootLocation.GetExecutingAsmLocation();
             var expectedDevSettingPath = Path.Combine(executingAsmDir, DevSettingsFileName);
 
             if (File.Exists(expectedDevSettingPath))
@@ -46,7 +47,7 @@ namespace Twittoot.Twitter.Repositories
 
         public TwitterUserApiSettings GetTwitterUserApiSettings()
         {
-            var executingAsmDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var executingAsmDir = TwittootLocation.GetExecutingAsmLocation();
             var expectedUserSettingPath = Path.Combine(executingAsmDir, UserSettingsFileName);
 
             if (File.Exists(expectedUserSettingPath))
