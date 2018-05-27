@@ -7,7 +7,13 @@ using Twittoot.Twitter.Tools;
 
 namespace Twittoot.Twitter.Repositories
 {
-    public class TwitterSettingsRepository
+    public interface ITwitterSettingsRepository
+    {
+        TwitterDevApiSettings GetTwitterDevApiSettings();
+        TwitterUserApiSettings GetTwitterUserApiSettings();
+    }
+
+    public class TwitterSettingsRepository : ITwitterSettingsRepository
     {
         private const string DevSettingsFileName = "Settings.Dev.json";
         private const string UserSettingsFileName = "Settings.User.json";
