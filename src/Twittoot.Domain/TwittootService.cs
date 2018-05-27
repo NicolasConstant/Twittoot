@@ -25,7 +25,7 @@ namespace Twittoot.Domain
             throw new NotImplementedException();
         }
 
-        public void DeleteAccount(int accountId)
+        public void DeleteAccount(Guid accountId)
         {
             throw new NotImplementedException();
         }
