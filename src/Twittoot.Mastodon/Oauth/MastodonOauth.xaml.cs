@@ -40,11 +40,11 @@ namespace Twittoot.Mastodon.Oauth
         private void WebBrowser_OnLoadCompleted(object sender, NavigationEventArgs e)
         {
             var wb = (WebBrowser)sender;
-            var codeElement = (wb.Document as dynamic).GetElementsByTagName("code")[0];
+            var codeElement = (wb.Document as dynamic).GetElementsByTagName("input")[0];
 
-            if (codeElement == null) return;
-
-            var code = codeElement.IHTMLElement_innerHTML;
+            if (codeElement == null || codeElement.IHTMLElement_className != "oauth-code") return;
+            
+            var code = codeElement.IHTMLInputElement_defaultValue;
 
             if (string.IsNullOrWhiteSpace(code)) return;
 
