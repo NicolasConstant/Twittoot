@@ -91,8 +91,8 @@ namespace Twittoot.Logic
                 int.TryParse(stgIndex, out index);
             }
 
-            if (index < accounts.Length && index >= 0)
-                _service.DeleteAccount(accounts[index].Id);
+            if (index <= accounts.Length && index > 0)
+                _service.DeleteAccount(accounts[--index].Id);
         }
 
         private void DisplayMenu()

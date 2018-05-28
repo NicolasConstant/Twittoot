@@ -60,12 +60,13 @@ namespace Twittoot.Domain
 
         public SyncAccount[] GetAllAccounts()
         {
-            throw new NotImplementedException();
+            return _syncAccountsRepository.GetAllAccounts();
         }
 
         public void DeleteAccount(Guid accountId)
         {
-            throw new NotImplementedException();
+            var allAccounts = _syncAccountsRepository.GetAllAccounts().Where(x => x.Id != accountId).Select(x => x).ToList();
+            _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
         }
 
         public void Run()
