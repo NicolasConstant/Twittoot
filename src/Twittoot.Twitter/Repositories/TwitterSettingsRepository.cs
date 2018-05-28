@@ -26,8 +26,7 @@ namespace Twittoot.Twitter.Repositories
 
         public TwitterDevApiSettings GetTwitterDevApiSettings()
         {
-            var executingAsmDir = TwittootLocation.GetExecutingAsmLocation();
-            var expectedDevSettingPath = Path.Combine(executingAsmDir, DevSettingsFileName);
+            var expectedDevSettingPath = TwittootLocation.GetUserFilePath(DevSettingsFileName);
 
             if (File.Exists(expectedDevSettingPath))
             {
@@ -47,8 +46,7 @@ namespace Twittoot.Twitter.Repositories
 
         public TwitterUserApiSettings GetTwitterUserApiSettings()
         {
-            var executingAsmDir = TwittootLocation.GetExecutingAsmLocation();
-            var expectedUserSettingPath = Path.Combine(executingAsmDir, UserSettingsFileName);
+            var expectedUserSettingPath = TwittootLocation.GetUserFilePath(UserSettingsFileName);
 
             if (File.Exists(expectedUserSettingPath))
             {

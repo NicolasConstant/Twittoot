@@ -39,8 +39,8 @@ namespace Twittoot.Domain
             _twitterService.EnsureTwitterIsReady();
 
             //Create mastodon profile
-            _mastodonService.CreateAppInInstanceIfNotPresent(mastodonInstance);
-            var userToken = _mastodonService.GetAccessToken(mastodonName, mastodonInstance);
+            var appInfo = _mastodonService.GetAppInfo(mastodonInstance);
+            var userToken = _mastodonService.GetAccessToken(appInfo, mastodonName, mastodonInstance);
 
             var newSyncProfile = new SyncAccount
             {

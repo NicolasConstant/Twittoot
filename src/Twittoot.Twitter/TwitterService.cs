@@ -59,7 +59,8 @@ namespace Twittoot.Twitter
 
         public void EnsureTwitterIsReady()
         {
-            throw new NotImplementedException();
+            _twitterSettingsRepository.GetTwitterUserApiSettings();
+            _twitterSettingsRepository.GetTwitterDevApiSettings();
         }
     }
 }
