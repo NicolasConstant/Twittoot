@@ -45,13 +45,21 @@
   <ItemGroup>
     <Compile Include="Models\SyncAccount.cs" />
     <Compile Include="Repositories\SyncAccountsRepository.cs" />
-    <Compile Include="TwittootService.cs" />
+    <Compile Include="TwittootFacade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Twittoot.Common\Twittoot.Common.csproj">
       <Project>{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}</Project>
       <Name>Twittoot.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Twittoot.Mastodon\Twittoot.Mastodon.csproj">
+      <Project>{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}</Project>
+      <Name>Twittoot.Mastodon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Twittoot.Twitter\Twittoot.Twitter.csproj">
+      <Project>{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE}</Project>
+      <Name>Twittoot.Twitter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

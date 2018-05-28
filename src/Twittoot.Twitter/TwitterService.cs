@@ -11,7 +11,13 @@ using Twittoot.Twitter.Settings;
 
 namespace Twittoot.Twitter
 {
-    public class TwitterService
+    public interface ITwitterService
+    {
+        ITweet[] GetUserTweets(string twitterUserName, int nberTweets, long fromTweetId = -1);
+        void EnsureTwitterIsReady();
+    }
+
+    public class TwitterService : ITwitterService
     {
         private readonly ITwitterSettingsRepository _twitterSettingsRepository;
 
@@ -49,6 +55,11 @@ namespace Twittoot.Twitter
                 return Timeline.GetUserTimeline(user.Id, timelineRequestParameters).ToArray();
 
             }
+        }
+
+        public void EnsureTwitterIsReady()
+        {
+            throw new NotImplementedException();
         }
     }
 }

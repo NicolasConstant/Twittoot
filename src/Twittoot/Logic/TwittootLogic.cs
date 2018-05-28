@@ -6,10 +6,10 @@ namespace Twittoot.Logic
 {
     public class TwittootLogic
     {
-        private readonly TwittootService _service;
+        private readonly ITwittootFacade _service;
 
         #region Ctor
-        public TwittootLogic(TwittootService service)
+        public TwittootLogic(ITwittootFacade service)
         {
             _service = service;
         }

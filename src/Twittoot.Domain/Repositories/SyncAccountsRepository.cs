@@ -6,7 +6,13 @@ using Twittoot.Domain.Models;
 
 namespace Twittoot.Domain.Repositories
 {
-    public class SyncAccountsRepository
+    public interface ISyncAccountsRepository
+    {
+        SyncAccount[] GetAllAccounts();
+        void SaveAccounts(SyncAccount[] accounts);
+    }
+
+    public class SyncAccountsRepository : ISyncAccountsRepository
     {
         private const string AccountsFileName = "SavedAccounts";
 
