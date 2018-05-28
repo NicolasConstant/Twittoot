@@ -20,6 +20,7 @@ namespace Twittoot.Mastodon.Repositories
         #region Ctor
         public InstancesRepository()
         {
+
             if (!File.Exists(_instancesFilePath)) File.Create(_instancesFilePath);
         }
         #endregion

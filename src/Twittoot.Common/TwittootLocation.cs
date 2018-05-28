@@ -25,6 +25,8 @@ namespace Twittoot.Common
         {
             var executingAsmDir = GetExecutingAsmLocation();
             var userDataFolder = GetUserDataFolder();
+            var dirFullPath = Path.Combine(executingAsmDir, userDataFolder);
+            if (!Directory.Exists(dirFullPath)) Directory.CreateDirectory(dirFullPath);
             return Path.Combine(executingAsmDir, userDataFolder, fileName);
         }
     }

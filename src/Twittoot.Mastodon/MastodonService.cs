@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using mastodon;
 using mastodon.Enums;
 using Twittoot.Mastodon.Models;
+using Twittoot.Mastodon.Oauth;
 using Twittoot.Mastodon.Repositories;
 
 namespace Twittoot.Mastodon
@@ -51,7 +52,12 @@ namespace Twittoot.Mastodon
 
         public string GetAccessToken(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance)
         {
-            throw new NotImplementedException();
+            var url = $"{mastodonInstance}/oauth/authorize?" + Uri.EscapeDataString($"scope=read write follow&response_type=code&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id={appInfo.client_id}");
+            var mastodonWindows = new MastodonOauth(url);
+            mastodonWindows.Show();
+
+            return mastodonWindows.Code;
+
         }
     }
 }
