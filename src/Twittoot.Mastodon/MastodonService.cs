@@ -52,7 +52,7 @@ namespace Twittoot.Mastodon
 
         public string GetAccessToken(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance)
         {
-            var url = $"{mastodonInstance}/oauth/authorize?" + Uri.EscapeDataString($"scope=read write follow&response_type=code&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id={appInfo.client_id}");
+            var url = "https://mamot.fr/oauth/authorize"+$"?scope=read%20write%20follow&response_type=code&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id={appInfo.client_id}";
             var mastodonWindows = new MastodonOauth(url);
             mastodonWindows.Show();
 

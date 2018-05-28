@@ -1,8 +1,8 @@
 ﻿<Window x:Class="Twittoot.Mastodon.Oauth.MastodonOauth"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Authenticate Twitter" 
-        Height="800" 
+        Title="Authenticate Mastodon"
+        Height="600" 
         Width="800" 
         ResizeMode="NoResize"
         WindowStyle="ToolWindow">

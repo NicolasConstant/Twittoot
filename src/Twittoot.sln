@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8A992C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Common", "Twittoot.Common\Twittoot.Common.csproj", "{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Mastodon.Tests", "Tests\Twittoot.Mastodon.Tests\Twittoot.Mastodon.Tests.csproj", "{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1} = {C11A4E35-30C2-4335-92A6-BD0D032A42BE}
 		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0} = {945F9205-B57B-4483-90A4-0CC2751AC33B}
 		{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA} = {8A992C18-1444-4231-B09D-0B6CBEE05444}
+		{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A} = {945F9205-B57B-4483-90A4-0CC2751AC33B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80914C9C-1687-464E-8DCF-4174FCA9DD2E}

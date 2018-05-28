@@ -14,13 +14,14 @@ namespace Twittoot.Domain.Repositories
 
     public class SyncAccountsRepository : ISyncAccountsRepository
     {
-        private const string AccountsFileName = "SavedAccounts";
+        private const string AccountsFileName = "SavedAccounts.json";
         private readonly string _accountsFilePath = TwittootLocation.GetUserFilePath(AccountsFileName);
 
         #region Ctor
         public SyncAccountsRepository()
         {
-            if (!File.Exists(_accountsFilePath)) File.Create(_accountsFilePath);
+            var json = JsonConvert.SerializeObject(new SyncAccount[0]);
+            if (!File.Exists(_accountsFilePath)) File.WriteAllText(_accountsFilePath, json);
         }
         #endregion
 

@@ -14,14 +14,14 @@ namespace Twittoot.Mastodon.Repositories
 
     public class InstancesRepository : IInstancesRepository
     {
-        private const string InstancesFileName = "Instances";
+        private const string InstancesFileName = "Instances.json";
         private readonly string _instancesFilePath = TwittootLocation.GetUserFilePath(InstancesFileName);
 
         #region Ctor
         public InstancesRepository()
         {
-
-            if (!File.Exists(_instancesFilePath)) File.Create(_instancesFilePath);
+            var json = JsonConvert.SerializeObject(new AppInfoWrapper[0]);
+            if (!File.Exists(_instancesFilePath)) File.WriteAllText(_instancesFilePath, json);
         }
         #endregion
 
