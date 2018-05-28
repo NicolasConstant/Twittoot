@@ -40,7 +40,7 @@ namespace Twittoot.Domain
 
             //Create mastodon profile
             var appInfo = _mastodonService.GetAppInfo(mastodonInstance);
-            var userToken = _mastodonService.GetAccessToken(appInfo, mastodonName, mastodonInstance);
+            var userToken = _mastodonService.GetRefreshToken(appInfo, mastodonName, mastodonInstance);
 
             var newSyncProfile = new SyncAccount
             {
@@ -48,7 +48,7 @@ namespace Twittoot.Domain
                 TwitterName = twitterName,
                 MastodonName = mastodonName,
                 MastodonInstance = mastodonInstance,
-                MastodonToken = userToken,
+                MastodonRefreshToken = userToken,
                 LastSyncTweetId = -1
             };
 
