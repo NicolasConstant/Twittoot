@@ -8,7 +8,7 @@ namespace Twittoot.Domain.Models
         public string TwitterName { get; set; }
         public string MastodonName { get; set; }
         public string MastodonInstance { get; set; }
-        public string MastodonRefreshToken { get; set; }
+        public string MastodonAccessToken { get; set; }
         public long LastSyncTweetId { get; set; }
     }
 }

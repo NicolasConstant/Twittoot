@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twittoot.Domain.BusinessRules;
+using Twittoot.Domain.Factories;
 using Twittoot.Domain.Models;
 using Twittoot.Domain.Repositories;
 using Twittoot.Mastodon;
@@ -23,13 +25,15 @@ namespace Twittoot.Domain
         private readonly ITwitterService _twitterService;
         private readonly IMastodonService _mastodonService;
         private readonly ISyncAccountsRepository _syncAccountsRepository;
+        private readonly ProcessAccountSyncFactory _processAccountSyncFactory;
 
         #region Ctor
-        public TwittootFacade(ITwitterService twitterService, IMastodonService mastodonService, ISyncAccountsRepository syncAccountsRepository)
+        public TwittootFacade(ITwitterService twitterService, IMastodonService mastodonService, ISyncAccountsRepository syncAccountsRepository, ProcessAccountSyncFactory processAccountSyncFactory)
         {
             _twitterService = twitterService;
             _mastodonService = mastodonService;
             _syncAccountsRepository = syncAccountsRepository;
+            _processAccountSyncFactory = processAccountSyncFactory;
         }
         #endregion
 
@@ -40,7 +44,7 @@ namespace Twittoot.Domain
 
             //Create mastodon profile
             var appInfo = _mastodonService.GetAppInfo(mastodonInstance);
-            var userToken = _mastodonService.GetRefreshToken(appInfo, mastodonName, mastodonInstance);
+            var userToken = _mastodonService.GetAccessToken(appInfo, mastodonName, mastodonInstance);
 
             var newSyncProfile = new SyncAccount
             {
@@ -48,7 +52,7 @@ namespace Twittoot.Domain
                 TwitterName = twitterName,
                 MastodonName = mastodonName,
                 MastodonInstance = mastodonInstance,
-                MastodonRefreshToken = userToken,
+                MastodonAccessToken = userToken,
                 LastSyncTweetId = -1
             };
 
@@ -71,7 +75,13 @@ namespace Twittoot.Domain
 
         public void Run()
         {
-            throw new NotImplementedException();
+            var accounts = _syncAccountsRepository.GetAllAccounts();
+            
+            foreach (var syncAccount in accounts)
+            {
+                var action = _processAccountSyncFactory.GetAccountSync(syncAccount);
+                action.Execute();
+            }
         }
     }
 }
