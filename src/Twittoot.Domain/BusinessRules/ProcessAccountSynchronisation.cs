@@ -23,7 +23,7 @@ namespace Twittoot.Domain.BusinessRules
 
         public void Execute()
         {
-            var getLastTweets = GetTweetsUntilLastSync(_syncAccount.LastSyncTweetId).ToList();
+            var getLastTweets = GetTweetsUntilLastSync(_syncAccount.LastSyncTweetId).OrderBy(x => x.Id).ToList();
 
             if (getLastTweets.Count == 0) return;
 
@@ -31,6 +31,8 @@ namespace Twittoot.Domain.BusinessRules
             {
                 _mastodonService.SubmitToot(_syncAccount.MastodonAccessToken, _syncAccount.MastodonName, _syncAccount.MastodonInstance, lastTweet.FullText);
             }
+
+            //TODO save last synchred tweet id
         }
 
         private IEnumerable<ITweet> GetTweetsUntilLastSync(long lastSyncTweetId)

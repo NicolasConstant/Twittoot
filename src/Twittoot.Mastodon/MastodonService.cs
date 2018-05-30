@@ -23,11 +23,13 @@ namespace Twittoot.Mastodon
     public class MastodonService : IMastodonService
     {
         private readonly IInstancesRepository _instancesRepository;
+        private readonly Dictionary<string, MastodonClient> _mastodonClientDict;
 
         #region Ctor
         public MastodonService(IInstancesRepository instancesRepository)
         {
             _instancesRepository = instancesRepository;
+            _mastodonClientDict = new Dictionary<string, MastodonClient>();
         }
         #endregion
 
@@ -81,7 +83,19 @@ namespace Twittoot.Mastodon
         
         public void SubmitToot(string accessToken, string mastodonName, string mastodonInstance, string lastTweetFullText)
         {
-            throw new NotImplementedException();
+            var client = GetClient(mastodonInstance);
+            client.PostNewStatus(accessToken, lastTweetFullText);
+        }
+
+        private MastodonClient GetClient(string mastodonInstanceUrl)
+        {
+            if (!_mastodonClientDict.ContainsKey(mastodonInstanceUrl))
+            {
+                var newClient = new MastodonClient(mastodonInstanceUrl);
+                _mastodonClientDict.Add(mastodonInstanceUrl, newClient);
+            }
+
+            return _mastodonClientDict[mastodonInstanceUrl];
         }
     }
 }
