@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Twittoot.Common;
@@ -9,6 +10,7 @@ namespace Twittoot.Domain.Repositories
     public interface ISyncAccountsRepository
     {
         SyncAccount[] GetAllAccounts();
+        void UpdateAccount(SyncAccount account);
         void SaveAccounts(SyncAccount[] accounts);
     }
 
@@ -35,6 +37,14 @@ namespace Twittoot.Domain.Repositories
         {
             var json = JsonConvert.SerializeObject(accounts);
             File.WriteAllText(_accountsFilePath, json);
+        }
+
+        public void UpdateAccount(SyncAccount account)
+        {
+            var allAccounts = GetAllAccounts().ToList();
+            allAccounts.Remove(allAccounts.Find(x => x.Id == account.Id));
+            allAccounts.Add(account);
+            SaveAccounts(allAccounts.ToArray());
         }
     }
 }

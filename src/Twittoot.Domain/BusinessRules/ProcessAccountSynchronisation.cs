@@ -2,6 +2,7 @@
 using System.Linq;
 using Tweetinvi.Models;
 using Twittoot.Domain.Models;
+using Twittoot.Domain.Repositories;
 using Twittoot.Mastodon;
 using Twittoot.Mastodon.Models;
 using Twittoot.Twitter;
@@ -13,26 +14,29 @@ namespace Twittoot.Domain.BusinessRules
         private readonly SyncAccount _syncAccount;
         private readonly ITwitterService _twitterService;
         private readonly IMastodonService _mastodonService;
+        private readonly ISyncAccountsRepository _syncAccountsRepository;
 
-        public ProcessAccountSynchronisation(SyncAccount syncAccount, ITwitterService twitterService, IMastodonService mastodonService)
+        public ProcessAccountSynchronisation(SyncAccount syncAccount, ITwitterService twitterService, IMastodonService mastodonService, ISyncAccountsRepository syncAccountsRepository)
         {
             this._syncAccount = syncAccount;
             _twitterService = twitterService;
             _mastodonService = mastodonService;
+            _syncAccountsRepository = syncAccountsRepository;
         }
 
         public void Execute()
         {
-            var getLastTweets = GetTweetsUntilLastSync(_syncAccount.LastSyncTweetId).OrderBy(x => x.Id).ToList();
+            //Get tweets
+            var lastTweets = GetTweetsUntilLastSync(_syncAccount.LastSyncTweetId).OrderBy(x => x.Id).ToList();
 
-            if (getLastTweets.Count == 0) return;
-
-            foreach (var lastTweet in getLastTweets)
-            {
+            //Sync
+            if (lastTweets.Count == 0) return;
+            foreach (var lastTweet in lastTweets)
                 _mastodonService.SubmitToot(_syncAccount.MastodonAccessToken, _syncAccount.MastodonName, _syncAccount.MastodonInstance, lastTweet.FullText);
-            }
 
-            //TODO save last synchred tweet id
+            //Update profile
+            _syncAccount.LastSyncTweetId = lastTweets.Select(x => x.Id).Max();
+            _syncAccountsRepository.UpdateAccount(_syncAccount);
         }
 
         private IEnumerable<ITweet> GetTweetsUntilLastSync(long lastSyncTweetId)
