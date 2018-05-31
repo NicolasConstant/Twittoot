@@ -39,7 +39,7 @@ namespace Twittoot.Twitter
             var userSettings = _twitterSettingsRepository.GetTwitterUserApiSettings();
             
             Auth.SetUserCredentials(devSettings.ConsumerKey, devSettings.ConsumerSecret, userSettings.AccessToken, userSettings.AccessTokenSecret);
-
+            TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
 
             var user = User.GetUserFromScreenName(twitterUserName);
 
