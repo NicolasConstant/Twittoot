@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +19,8 @@ namespace Twittoot.Mastodon
     {
         AppInfoWrapper GetAppInfo(string mastodonInstance);
         string GetAccessToken(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance);
-        void SubmitToot(string accessToken, string mastodonName, string mastodonInstance, string lastTweetFullText);
+        IEnumerable<int> SubmitAttachements(string accessToken, string mastodonInstance, string[] attachementUrls);
+        void SubmitToot(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds);
     }
 
     public class MastodonService : IMastodonService
@@ -81,10 +84,38 @@ namespace Twittoot.Mastodon
             public int created_at { get; set; }
         }
         
-        public void SubmitToot(string accessToken, string mastodonName, string mastodonInstance, string lastTweetFullText)
+        public void SubmitToot(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds)
         {
             var client = GetClient(mastodonInstance);
-            client.PostNewStatus(accessToken, lastTweetFullText);
+            client.PostNewStatus(accessToken, lastTweetFullText, -1, attachementsIds);
+        }
+
+        public IEnumerable<int> SubmitAttachements(string accessToken, string mastodonInstance, string[] attachementUrls)
+        {
+            var client = GetClient(mastodonInstance);
+            foreach (var attachementUrl in attachementUrls)
+            {
+                int? id = null;
+                try
+                {
+                    byte[] imageBytes;
+                    using (var webClient = new WebClient())
+                    {
+                        imageBytes = webClient.DownloadData(attachementUrl);
+                    }
+
+                    var uri = new Uri(attachementUrl);
+                    var filename = Path.GetFileName(uri.AbsolutePath);
+
+                    id = client.UploadingMediaAttachment(accessToken, filename, imageBytes, filename).id;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
+                if (id != null) yield return ((int)id);
+            }
         }
 
         private MastodonClient GetClient(string mastodonInstanceUrl)

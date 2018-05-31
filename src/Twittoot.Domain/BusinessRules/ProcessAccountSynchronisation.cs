@@ -32,7 +32,15 @@ namespace Twittoot.Domain.BusinessRules
             //Sync
             if (lastTweets.Count == 0) return;
             foreach (var lastTweet in lastTweets)
-                _mastodonService.SubmitToot(_syncAccount.MastodonAccessToken, _syncAccount.MastodonName, _syncAccount.MastodonInstance, lastTweet.MessageContent);
+            {
+                var mediasIds = new int[0];
+                if (lastTweet.MediaUrls != null)
+                    mediasIds = _mastodonService.SubmitAttachements(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance,
+                        lastTweet.MediaUrls).ToArray();
+
+                _mastodonService.SubmitToot(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance,
+                    lastTweet.MessageContent, mediasIds);
+            }
 
             //Update profile
             _syncAccount.LastSyncTweetId = lastTweets.Select(x => x.Id).Max();
