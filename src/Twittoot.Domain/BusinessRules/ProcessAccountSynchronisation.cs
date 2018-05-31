@@ -27,12 +27,12 @@ namespace Twittoot.Domain.BusinessRules
         public void Execute()
         {
             //Get tweets
-            var lastTweets = GetTweetsUntilLastSync(_syncAccount.LastSyncTweetId).OrderBy(x => x.Id).ToList();
+            var lastTweets = GetTweetsUntilLastSync(_syncAccount.LastSyncTweetId).Select(ExtractTweet).OrderBy(x => x.Id).ToList();
 
             //Sync
             if (lastTweets.Count == 0) return;
             foreach (var lastTweet in lastTweets)
-                _mastodonService.SubmitToot(_syncAccount.MastodonAccessToken, _syncAccount.MastodonName, _syncAccount.MastodonInstance, lastTweet.FullText);
+                _mastodonService.SubmitToot(_syncAccount.MastodonAccessToken, _syncAccount.MastodonName, _syncAccount.MastodonInstance, lastTweet.MessageContent);
 
             //Update profile
             _syncAccount.LastSyncTweetId = lastTweets.Select(x => x.Id).Max();
@@ -41,7 +41,7 @@ namespace Twittoot.Domain.BusinessRules
 
         private IEnumerable<ITweet> GetTweetsUntilLastSync(long lastSyncTweetId)
         {
-            var firstTweets = GetTweets();
+            var firstTweets = GetTweets(5);
 
             //First time synchronisation
             if (lastSyncTweetId == -1) return firstTweets;
@@ -51,16 +51,39 @@ namespace Twittoot.Domain.BusinessRules
             allTweets.AddRange(firstTweets);
             while (allTweets.All(x => x.Id != lastSyncTweetId))
             {
-                var nextTweets = GetTweets(allTweets.Select(x => x.Id).Min());
+                var nextTweets = GetTweets(50, allTweets.Select(x => x.Id).Min());
                 allTweets.AddRange(nextTweets);
             }
 
             return allTweets.FindAll(x => x.Id > lastSyncTweetId);
         }
 
-        private ITweet[] GetTweets(long lastTweetId = -1)
+        private ITweet[] GetTweets(int nbTweets, long lastTweetId = -1)
         {
-            return _twitterService.GetUserTweets(_syncAccount.TwitterName, 50, lastTweetId);
+            return _twitterService.GetUserTweets(_syncAccount.TwitterName, nbTweets, lastTweetId);
         }
+
+        private ExtractedTeet ExtractTweet(ITweet tweet)
+        {
+            var tweetUrls = tweet.Media.Select(x => x.URL).Distinct();
+
+            var message = tweet.FullText;
+            foreach (var tweetUrl in tweetUrls)
+                message = message.Replace(tweetUrl, string.Empty).Trim();
+
+            return new ExtractedTeet
+            {
+                Id = tweet.Id,
+                MessageContent = message,
+                MediaUrls = tweet.Media.Select(x => x.MediaURLHttps).ToArray()
+            };
+        }
+    }
+
+    public class ExtractedTeet
+    {
+        public long Id { get; set; }
+        public string MessageContent { get; set; }
+        public string[] MediaUrls { get; set; }
     }
 }
