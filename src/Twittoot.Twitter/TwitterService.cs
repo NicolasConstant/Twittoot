@@ -68,6 +68,7 @@ namespace Twittoot.Twitter
                 message = message.Replace(tweetUrl, string.Empty).Trim();
 
             if (tweet.QuotedTweet != null) message = $"[Quote RT] {message}";
+            if (tweet.IsRetweet) message = message.Replace("RT", "[RT]");
 
             return new ExtractedTweet
             {
