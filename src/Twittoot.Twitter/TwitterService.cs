@@ -67,6 +67,8 @@ namespace Twittoot.Twitter
             foreach (var tweetUrl in tweetUrls)
                 message = message.Replace(tweetUrl, string.Empty).Trim();
 
+            if (tweet.QuotedTweet != null) message = $"[Quote RT] {message}";
+
             return new ExtractedTweet
             {
                 Id = tweet.Id,
