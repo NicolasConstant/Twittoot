@@ -105,6 +105,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dtos\ExtractedTweet.cs" />
     <Compile Include="Oauth\TwitterOauth.xaml.cs">
       <DependentUpon>TwitterOauth.xaml</DependentUpon>
     </Compile>

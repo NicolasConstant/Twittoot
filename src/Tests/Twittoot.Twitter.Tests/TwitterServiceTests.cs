@@ -26,8 +26,8 @@ namespace Twittoot.Twitter.Tests
             var firstBatch = service.GetUserTweets(twitterName, 25);
             var secondBatch = service.GetUserTweets(twitterName, 25, firstBatch.Select(x => x.Id).Min());
 
-            Assert.AreEqual(completeBatch[5].Url, firstBatch[5].Url);
-            Assert.AreEqual(completeBatch[40].Url, secondBatch[15].Url);
+            Assert.AreEqual(completeBatch[5].MessageContent, firstBatch[5].MessageContent);
+            Assert.AreEqual(completeBatch[40].MessageContent, secondBatch[15].MessageContent);
         }
     }
 }

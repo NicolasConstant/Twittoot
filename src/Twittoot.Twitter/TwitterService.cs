@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
+using Twittoot.Twitter.Dtos;
 using Twittoot.Twitter.Repositories;
 using Twittoot.Twitter.Settings;
 
@@ -13,7 +15,7 @@ namespace Twittoot.Twitter
 {
     public interface ITwitterService
     {
-        ITweet[] GetUserTweets(string twitterUserName, int nberTweets, long fromTweetId = -1);
+        ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, long fromTweetId = -1);
         void EnsureTwitterIsReady();
     }
 
@@ -28,7 +30,7 @@ namespace Twittoot.Twitter
         }
         #endregion
 
-        public ITweet[] GetUserTweets(string twitterUserName, int nberTweets, long fromTweetId = -1)
+        public ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, long fromTweetId = -1)
         {
             if(nberTweets > 200) 
                 throw new ArgumentException("More than 200 Tweets retrieval isn't supported");
@@ -43,7 +45,7 @@ namespace Twittoot.Twitter
 
             if (fromTweetId == -1)
             {
-                return Timeline.GetUserTimeline(user.Id, nberTweets).ToArray();
+                return Timeline.GetUserTimeline(user.Id, nberTweets).Select(ExtractTweet).ToArray();
             }
             else
             {
@@ -52,8 +54,34 @@ namespace Twittoot.Twitter
                     MaxId = fromTweetId - 1,
                     MaximumNumberOfTweetsToRetrieve = nberTweets
                 };
-                return Timeline.GetUserTimeline(user.Id, timelineRequestParameters).ToArray();
+                return Timeline.GetUserTimeline(user.Id, timelineRequestParameters).Select(ExtractTweet).ToArray();
 
+            }
+        }
+
+        private ExtractedTweet ExtractTweet(ITweet tweet)
+        {
+            var tweetUrls = tweet.Media.Select(x => x.URL).Distinct();
+
+            var message = tweet.FullText;
+            foreach (var tweetUrl in tweetUrls)
+                message = message.Replace(tweetUrl, string.Empty).Trim();
+
+            return new ExtractedTweet
+            {
+                Id = tweet.Id,
+                MessageContent = message,
+                MediaUrls = tweet.Media.Select(GetMediaUrl).Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x).ToArray()
+            };
+        }
+
+        private string GetMediaUrl(IMediaEntity media)
+        {
+            switch (media.MediaType)
+            {
+                case "photo": return media.MediaURLHttps;
+                case "animated_gif": return media.VideoDetails.Variants[0].URL;
+                default: return null;
             }
         }
 
