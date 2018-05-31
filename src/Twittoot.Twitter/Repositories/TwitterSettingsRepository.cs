@@ -38,9 +38,30 @@ namespace Twittoot.Twitter.Repositories
             }
             else
             {
-                var json = JsonConvert.SerializeObject(_defaultDevSettings);
-                File.WriteAllText(expectedDevSettingPath, json);
-                throw new Exception("Settings.Dev.json not found, please provide correct info.");
+                Console.WriteLine("Provide Twitter API Consumer Key");
+                var consumerKey = Console.ReadLine();
+
+                Console.WriteLine();
+                Console.WriteLine("Provide Twitter API Consumer Secret");
+                var consumerSecret = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(consumerKey) || string.IsNullOrWhiteSpace(consumerSecret))
+                {
+                    var json = JsonConvert.SerializeObject(_defaultDevSettings);
+                    File.WriteAllText(expectedDevSettingPath, json);
+                    throw new Exception("You didn't provide API info, we created for you a default Settings.Dev.json, please complete it accordingly.");
+                }
+                else
+                {
+                    var settings = new TwitterDevApiSettings
+                    {
+                        ConsumerKey = consumerKey,
+                        ConsumerSecret = consumerSecret
+                    };
+                    var json = JsonConvert.SerializeObject(settings);
+                    File.WriteAllText(expectedDevSettingPath, json);
+                    return settings;
+                }
             }
         }
 

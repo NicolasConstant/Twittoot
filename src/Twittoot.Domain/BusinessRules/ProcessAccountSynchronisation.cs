@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using Tweetinvi.Models;
-using Tweetinvi.Models.Entities;
 using Twittoot.Domain.Models;
 using Twittoot.Domain.Repositories;
 using Twittoot.Mastodon;
