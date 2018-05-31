@@ -51,10 +51,10 @@ namespace Twittoot.Domain.BusinessRules
 
         private IEnumerable<ExtractedTweet> GetTweetsUntilLastSync(long lastSyncTweetId)
         {
-            var firstTweets = GetTweets(5);
+            var firstTweets = GetTweets(5).ToList();
 
             //First time synchronisation
-            if (lastSyncTweetId == -1) return firstTweets;
+            if (lastSyncTweetId == -1) return firstTweets.FindAll(IsNotAutoRetweet);
 
             //Retrieve all tweets until last sync
             var allTweets = new List<ExtractedTweet>();
@@ -65,12 +65,17 @@ namespace Twittoot.Domain.BusinessRules
                 allTweets.AddRange(nextTweets);
             }
 
-            return allTweets.FindAll(x => x.Id > lastSyncTweetId);
+            return allTweets.FindAll(x => x.Id > lastSyncTweetId && IsNotAutoRetweet(x));
         }
 
         private ExtractedTweet[] GetTweets(int nbTweets, long lastTweetId = -1)
         {
             return _twitterService.GetUserTweets(_syncAccount.TwitterName, nbTweets, lastTweetId);
+        }
+
+        private bool IsNotAutoRetweet(ExtractedTweet tweet)
+        {
+            return !tweet.MessageContent.StartsWith($"[RT] @{_syncAccount.TwitterName}");
         }
     }
 }
