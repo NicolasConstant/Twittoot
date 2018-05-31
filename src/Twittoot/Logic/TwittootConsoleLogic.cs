@@ -4,12 +4,12 @@ using Twittoot.Domain;
 
 namespace Twittoot.Logic
 {
-    public class TwittootLogic
+    public class TwittootConsoleLogic
     {
         private readonly ITwittootFacade _service;
 
         #region Ctor
-        public TwittootLogic(ITwittootFacade service)
+        public TwittootConsoleLogic(ITwittootFacade service)
         {
             _service = service;
         }

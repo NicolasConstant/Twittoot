@@ -7,7 +7,7 @@
     <ProjectGuid>{D8A6DA0F-5DD3-45F0-82E5-0719A4875CBB}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Twittoot</RootNamespace>
-    <AssemblyName>Twittoot</AssemblyName>
+    <AssemblyName>run</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -91,7 +91,8 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Logic\IntroDisplay.cs" />
-    <Compile Include="Logic\TwittootLogic.cs" />
+    <Compile Include="Logic\TwittootConsoleLogic.cs" />
+    <Compile Include="Logic\TwittootJobLogic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
