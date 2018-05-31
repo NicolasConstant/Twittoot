@@ -81,6 +81,7 @@ namespace Twittoot.Twitter
             {
                 case "photo": return media.MediaURLHttps;
                 case "animated_gif": return media.VideoDetails.Variants[0].URL;
+                case "video": return media.VideoDetails.Variants.OrderByDescending(x => x.Bitrate).First().URL;
                 default: return null;
             }
         }
