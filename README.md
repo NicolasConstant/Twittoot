@@ -8,7 +8,7 @@ Can be easily hosted on Azure WebJob.
 ## Screenshot (console mode)
 
 <p align="center">
-   <img alt="screenshot" src="" />
+   <img alt="screenshot" src="https://raw.githubusercontent.com/NicolasConstant/Twittoot/master/resources/screen.png" />
 </p>
  
 ## Setup
