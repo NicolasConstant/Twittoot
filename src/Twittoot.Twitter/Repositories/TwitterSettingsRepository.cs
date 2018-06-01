@@ -38,6 +38,7 @@ namespace Twittoot.Twitter.Repositories
             }
             else
             {
+                Console.WriteLine();
                 Console.WriteLine("Provide Twitter API Consumer Key");
                 var consumerKey = Console.ReadLine();
 
