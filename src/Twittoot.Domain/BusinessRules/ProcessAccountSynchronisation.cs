@@ -57,7 +57,7 @@ namespace Twittoot.Domain.BusinessRules
             //Retrieve all tweets until last sync
             var allTweets = new List<ExtractedTweet>();
             allTweets.AddRange(firstTweets);
-            while (allTweets.All(x => x.Id != lastSyncTweetId))
+            while (!allTweets.Any(x => x.Id <= lastSyncTweetId))
             {
                 var nextTweets = GetTweets(50, allTweets.Select(x => x.Id).Min());
                 allTweets.AddRange(nextTweets);

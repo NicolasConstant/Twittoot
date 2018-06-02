@@ -107,7 +107,7 @@ namespace Twittoot.Mastodon
                     var uri = new Uri(attachementUrl);
                     var filename = Path.GetFileName(uri.AbsolutePath);
 
-                    id = client.UploadingMediaAttachment(accessToken, filename, imageBytes, filename).id;
+                    id = client.UploadingMediaAttachment(accessToken, filename, imageBytes, filename).id; //TODO reintegrate failed URL to toot message
                 }
                 catch (Exception e)
                 {
