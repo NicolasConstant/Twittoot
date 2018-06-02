@@ -34,12 +34,19 @@ namespace Twittoot.Domain.BusinessRules
             foreach (var lastTweet in lastTweets)
             {
                 var mediasIds = new int[0];
-                if (lastTweet.MediaUrls != null)
-                    mediasIds = _mastodonService.SubmitAttachements(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance,
-                        lastTweet.MediaUrls).ToArray();
+                var messageContent = lastTweet.MessageContent;
 
-                _mastodonService.SubmitToot(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance,
-                    lastTweet.MessageContent, mediasIds);
+                if (lastTweet.MediaUrls != null)
+                {
+                    var uploadResults = _mastodonService.SubmitAttachements(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance, lastTweet.MediaUrls).ToArray();
+                    mediasIds = uploadResults.Where(x => x.UploadSucceeded).Select(x => x.AttachementId).ToArray();
+
+                    var failedUploadAttachementUrls = uploadResults.Where(x => !x.UploadSucceeded).Select(x => x.AttachementUrl);
+                    foreach (var url in failedUploadAttachementUrls)
+                        messageContent += $" {url}";
+                }
+
+                _mastodonService.SubmitToot(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance, messageContent, mediasIds);
             }
 
             //Update profile

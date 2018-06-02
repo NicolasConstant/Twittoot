@@ -19,7 +19,7 @@ namespace Twittoot.Mastodon
     {
         AppInfoWrapper GetAppInfo(string mastodonInstance);
         string GetAccessToken(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance);
-        IEnumerable<int> SubmitAttachements(string accessToken, string mastodonInstance, string[] attachementUrls);
+        IEnumerable<AttachementResult> SubmitAttachements(string accessToken, string mastodonInstance, string[] attachementUrls);
         void SubmitToot(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds);
     }
 
@@ -90,12 +90,13 @@ namespace Twittoot.Mastodon
             client.PostNewStatus(accessToken, lastTweetFullText, -1, attachementsIds);
         }
 
-        public IEnumerable<int> SubmitAttachements(string accessToken, string mastodonInstance, string[] attachementUrls)
+        public IEnumerable<AttachementResult> SubmitAttachements(string accessToken, string mastodonInstance, string[] attachementUrls)
         {
             var client = GetClient(mastodonInstance);
             foreach (var attachementUrl in attachementUrls)
             {
                 int? id = null;
+                var uploadSucceed = true;
                 try
                 {
                     byte[] imageBytes;
@@ -112,9 +113,16 @@ namespace Twittoot.Mastodon
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
+                    uploadSucceed = false;
                 }
 
-                if (id != null) yield return ((int)id);
+                var result = new AttachementResult()
+                {
+                    AttachementId = id ?? -1,
+                    UploadSucceeded = uploadSucceed,
+                    AttachementUrl = attachementUrl
+                };
+                yield return result;
             }
         }
 

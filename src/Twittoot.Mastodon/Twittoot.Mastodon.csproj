@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="MastodonService.cs" />
     <Compile Include="Models\AppInfoWrapper.cs" />
+    <Compile Include="Models\AttachementResult.cs" />
     <Compile Include="Oauth\MastodonOauth.xaml.cs">
       <DependentUpon>MastodonOauth.xaml</DependentUpon>
     </Compile>
