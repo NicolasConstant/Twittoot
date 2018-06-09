@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Twittoot.Domain;
 
 namespace Twittoot.Logic
@@ -14,9 +15,9 @@ namespace Twittoot.Logic
         }
         #endregion
 
-        public void Run()
+        public async Task Run()
         {
-            _service.Run();
+            await _service.RunAsync();
         }
     }
 }

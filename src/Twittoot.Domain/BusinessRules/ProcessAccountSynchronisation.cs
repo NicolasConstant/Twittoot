@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Twittoot.Domain.Models;
 using Twittoot.Domain.Repositories;
 using Twittoot.Mastodon;
@@ -24,7 +25,7 @@ namespace Twittoot.Domain.BusinessRules
             _syncAccountsRepository = syncAccountsRepository;
         }
 
-        public void Execute()
+        public async Task Execute()
         {
             //Get tweets
             var lastTweets = GetTweetsUntilLastSync(_syncAccount.LastSyncTweetId).OrderBy(x => x.Id).ToList();
@@ -38,7 +39,7 @@ namespace Twittoot.Domain.BusinessRules
 
                 if (lastTweet.MediaUrls != null)
                 {
-                    var uploadResults = _mastodonService.SubmitAttachements(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance, lastTweet.MediaUrls).ToArray();
+                    var uploadResults = (await _mastodonService.SubmitAttachementsAsync(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance, lastTweet.MediaUrls)).ToArray();
                     mediasIds = uploadResults.Where(x => x.UploadSucceeded).Select(x => x.AttachementId).ToArray();
 
                     var failedUploadAttachementUrls = uploadResults.Where(x => !x.UploadSucceeded).Select(x => x.AttachementUrl);
@@ -46,7 +47,7 @@ namespace Twittoot.Domain.BusinessRules
                         messageContent += $" {url}";
                 }
 
-                _mastodonService.SubmitToot(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance, messageContent, mediasIds);
+                await _mastodonService.SubmitTootAsync(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance, messageContent, mediasIds);
             }
 
             //Update profile
@@ -75,7 +76,7 @@ namespace Twittoot.Domain.BusinessRules
 
         private ExtractedTweet[] GetTweets(int nbTweets, long lastTweetId = -1)
         {
-            return _twitterService.GetUserTweets(_syncAccount.TwitterName, nbTweets, lastTweetId);
+            return _twitterService.GetUserTweets(_syncAccount.TwitterName, nbTweets, false, lastTweetId);
         }
 
         private bool IsNotAutoRetweet(ExtractedTweet tweet)

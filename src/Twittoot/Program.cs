@@ -23,12 +23,14 @@ namespace Twittoot
             if (args.Contains("setup"))
             {
                 var program = container.Resolve<ConsoleProgram>();
-                program.Run();
+                var t = program.RunAsync();
+                t.Wait();
             }
             else
             {
                 var program = container.Resolve<JobProgram>();
-                program.Run();
+                var t = program.RunAsync();
+                t.Wait();
             }
         }
 
@@ -52,12 +54,12 @@ namespace Twittoot
         }
         #endregion
 
-        public void Run()
+        public async Task RunAsync()
         {
             try
             {
                 _introDisplay.Run();
-                _logic.Run();
+                await _logic.RunAsync();
             }
             catch (Exception e)
             {
@@ -79,11 +81,11 @@ namespace Twittoot
         }
         #endregion
 
-        public void Run()
+        public async Task RunAsync()
         {
             try
             {
-                _logic.Run();
+                await _logic.Run();
             }
             catch (Exception e)
             {

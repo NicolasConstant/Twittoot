@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Twittoot.Domain;
 
 namespace Twittoot.Logic
@@ -15,7 +16,7 @@ namespace Twittoot.Logic
         }
         #endregion
 
-        public void Run()
+        public async Task RunAsync()
         {
             for (;;)
             {
@@ -24,10 +25,10 @@ namespace Twittoot.Logic
                 switch (result)
                 {
                     case "1":
-                        RunSync();
+                        await RunSync();
                         break;
                     case "2":
-                        AddNewAccount();
+                        await AddNewAccount();
                         break;
                     case "3": 
                         ListAllAccount();
@@ -41,12 +42,12 @@ namespace Twittoot.Logic
             }
         }
 
-        private void RunSync()
+        private async Task RunSync()
         {
-            _service.Run();
+            await _service.RunAsync();
         }
 
-        private void AddNewAccount()
+        private async Task AddNewAccount()
         {
             Console.WriteLine();
             Console.WriteLine("Provide Twitter Name");
@@ -61,7 +62,7 @@ namespace Twittoot.Logic
             Console.WriteLine("Provide Mastodon Instance");
             var mastodonInstance = Console.ReadLine();
 
-            _service.RegisterNewAccount(twitterName, mastodonName, mastodonInstance);
+            await _service.RegisterNewAccountAsync(twitterName, mastodonName, mastodonInstance);
         }
 
         private void ListAllAccount()

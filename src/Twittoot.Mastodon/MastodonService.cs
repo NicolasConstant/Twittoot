@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using mastodon;
@@ -17,10 +18,10 @@ namespace Twittoot.Mastodon
 {
     public interface IMastodonService
     {
-        AppInfoWrapper GetAppInfo(string mastodonInstance);
-        string GetAccessToken(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance);
-        IEnumerable<AttachementResult> SubmitAttachements(string accessToken, string mastodonInstance, string[] attachementUrls);
-        void SubmitToot(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds);
+        Task<AppInfoWrapper> GetAppInfoAsync(string mastodonInstance);
+        Task<string> GetAccessTokenAsync(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance);
+        Task<IEnumerable<AttachementResult>> SubmitAttachementsAsync(string accessToken, string mastodonInstance, string[] attachementUrls);
+        Task SubmitTootAsync(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds);
     }
 
     public class MastodonService : IMastodonService
@@ -36,7 +37,7 @@ namespace Twittoot.Mastodon
         }
         #endregion
 
-        public AppInfoWrapper GetAppInfo(string mastodonInstanceUrl)
+        public async Task<AppInfoWrapper> GetAppInfoAsync(string mastodonInstanceUrl)
         {
             var instances = _instancesRepository.GetAllInstances().ToList();
             if (instances.Any(x => x.InstanceUrl == mastodonInstanceUrl))
@@ -45,7 +46,7 @@ namespace Twittoot.Mastodon
             //Create new instance app
             var appHandler = new AppHandler(mastodonInstanceUrl);
             var scopes = AppScopeEnum.Read | AppScopeEnum.Write | AppScopeEnum.Follow;
-            var appData = appHandler.CreateApp("Twittoot", "urn:ietf:wg:oauth:2.0:oob", scopes, "https://github.com/NicolasConstant/Twittoot");
+            var appData = await appHandler.CreateAppAsync("Twittoot", scopes, "https://github.com/NicolasConstant/Twittoot");
 
             //Create new wrapper 
             var appDataWrapper = new AppInfoWrapper(mastodonInstanceUrl, appData);
@@ -58,7 +59,7 @@ namespace Twittoot.Mastodon
             return appDataWrapper;
         }
 
-        public string GetAccessToken(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance)
+        public async Task<string> GetAccessTokenAsync(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance)
         {
             //Get Oauth Code
             var oauthCodeUrl = $"{mastodonInstance}/oauth/authorize?scope=read%20write%20follow&response_type=code&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id={appInfo.client_id}";
@@ -69,8 +70,8 @@ namespace Twittoot.Mastodon
             var accessTokenUrl = $"{mastodonInstance}/oauth/token?client_id={appInfo.client_id}&client_secret={appInfo.client_secret}&grant_type=authorization_code&code={mastodonWindows.Code}&redirect_uri=urn:ietf:wg:oauth:2.0:oob";
 
             var client = new HttpClient();
-            var response = client.PostAsync(accessTokenUrl, null).Result;
-            var oauthReturnJson = response.Content.ReadAsStringAsync().Result;
+            var response = await client.PostAsync(accessTokenUrl, null);
+            var oauthReturnJson = await response.Content.ReadAsStringAsync();
             var oauthReturn = JsonConvert.DeserializeObject<OauthReturn>(oauthReturnJson);
 
             return oauthReturn.access_token;
@@ -84,15 +85,17 @@ namespace Twittoot.Mastodon
             public int created_at { get; set; }
         }
         
-        public void SubmitToot(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds)
+        public async Task SubmitTootAsync(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds)
         {
             var client = GetClient(mastodonInstance);
-            client.PostNewStatus(accessToken, lastTweetFullText, -1, attachementsIds);
+            await client.PostNewStatusAsync(accessToken, lastTweetFullText, StatusVisibilityEnum.Public, -1, attachementsIds);
         }
 
-        public IEnumerable<AttachementResult> SubmitAttachements(string accessToken, string mastodonInstance, string[] attachementUrls)
+        public async Task<IEnumerable<AttachementResult>> SubmitAttachementsAsync(string accessToken, string mastodonInstance, string[] attachementUrls)
         {
             var client = GetClient(mastodonInstance);
+
+            var results = new List<AttachementResult>();
             foreach (var attachementUrl in attachementUrls)
             {
                 int? id = null;
@@ -108,7 +111,7 @@ namespace Twittoot.Mastodon
                     var uri = new Uri(attachementUrl);
                     var filename = Path.GetFileName(uri.AbsolutePath);
 
-                    id = client.UploadingMediaAttachment(accessToken, filename, imageBytes, filename).id; //TODO reintegrate failed URL to toot message
+                    id = (await client.UploadingMediaAttachmentAsync(accessToken, filename, imageBytes, filename)).id; //TODO reintegrate failed URL to toot message
                 }
                 catch (Exception e)
                 {
@@ -122,8 +125,10 @@ namespace Twittoot.Mastodon
                     UploadSucceeded = uploadSucceed,
                     AttachementUrl = attachementUrl
                 };
-                yield return result;
+                results.Add(result);
             }
+
+            return results;
         }
 
         private MastodonClient GetClient(string mastodonInstanceUrl)

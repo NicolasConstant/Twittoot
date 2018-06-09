@@ -15,7 +15,7 @@ namespace Twittoot.Twitter
 {
     public interface ITwitterService
     {
-        ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, long fromTweetId = -1);
+        ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1);
         void EnsureTwitterIsReady();
     }
 
@@ -30,7 +30,7 @@ namespace Twittoot.Twitter
         }
         #endregion
 
-        public ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, long fromTweetId = -1)
+        public ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1)
         {
             if(nberTweets > 200) 
                 throw new ArgumentException("More than 200 Tweets retrieval isn't supported");
@@ -43,9 +43,10 @@ namespace Twittoot.Twitter
 
             var user = User.GetUserFromScreenName(twitterUserName);
 
+            var tweets = new List<ITweet>();
             if (fromTweetId == -1)
             {
-                return Timeline.GetUserTimeline(user.Id, nberTweets).Select(ExtractTweet).ToArray();
+                tweets.AddRange(Timeline.GetUserTimeline(user.Id, nberTweets));
             }
             else
             {
@@ -54,9 +55,11 @@ namespace Twittoot.Twitter
                     MaxId = fromTweetId - 1,
                     MaximumNumberOfTweetsToRetrieve = nberTweets
                 };
-                return Timeline.GetUserTimeline(user.Id, timelineRequestParameters).Select(ExtractTweet).ToArray();
+                tweets.AddRange(Timeline.GetUserTimeline(user.Id, timelineRequestParameters));
 
             }
+
+            return tweets.Where(x => returnReplies || string.IsNullOrWhiteSpace(x.InReplyToScreenName)).Select(ExtractTweet).ToArray();
         }
 
         private ExtractedTweet ExtractTweet(ITweet tweet)

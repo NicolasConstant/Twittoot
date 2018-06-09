@@ -14,10 +14,10 @@ namespace Twittoot.Domain
 {
     public interface ITwittootFacade
     {
-        void RegisterNewAccount(string twitterName, string mastodonName, string mastodonInstance);
+        Task RegisterNewAccountAsync(string twitterName, string mastodonName, string mastodonInstance);
         SyncAccount[] GetAllAccounts();
         void DeleteAccount(Guid accountId);
-        void Run();
+        Task RunAsync();
     }
 
     public class TwittootFacade : ITwittootFacade
@@ -37,14 +37,14 @@ namespace Twittoot.Domain
         }
         #endregion
 
-        public void RegisterNewAccount(string twitterName, string mastodonName, string mastodonInstance)
+        public async Task RegisterNewAccountAsync(string twitterName, string mastodonName, string mastodonInstance)
         {
             //Ensure Twitter client is properly set
             _twitterService.EnsureTwitterIsReady();
 
             //Create mastodon profile
-            var appInfo = _mastodonService.GetAppInfo(mastodonInstance);
-            var userToken = _mastodonService.GetAccessToken(appInfo, mastodonName, mastodonInstance);
+            var appInfo = await _mastodonService.GetAppInfoAsync(mastodonInstance);
+            var userToken = await _mastodonService.GetAccessTokenAsync(appInfo, mastodonName, mastodonInstance);
 
             var newSyncProfile = new SyncAccount
             {
@@ -73,14 +73,14 @@ namespace Twittoot.Domain
             _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
         }
 
-        public void Run()
+        public async Task RunAsync()
         {
             var accounts = _syncAccountsRepository.GetAllAccounts();
             
             foreach (var syncAccount in accounts)
             {
                 var action = _processAccountSyncFactory.GetAccountSync(syncAccount);
-                action.Execute();
+                await action.Execute();
             }
         }
     }
