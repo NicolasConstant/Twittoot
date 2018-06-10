@@ -81,7 +81,7 @@ namespace Twittoot.Domain.BusinessRules
 
         private bool IsNotAutoRetweet(ExtractedTweet tweet)
         {
-            return !tweet.MessageContent.Trim().StartsWith($"[RT] @{_syncAccount.TwitterName}");
+            return !tweet.MessageContent.Trim().StartsWith($"[RT {_syncAccount.TwitterName}]");
         }
 
         //private bool IsNotTweetResponse(ExtractedTweet tweet)

@@ -71,7 +71,13 @@ namespace Twittoot.Twitter
                 message = message.Replace(tweetUrl, string.Empty).Trim();
 
             if (tweet.QuotedTweet != null) message = $"[Quote RT] {message}";
-            if (tweet.IsRetweet) message = message.Replace("RT", "[RT]");
+            if (tweet.IsRetweet)
+            {
+                if (tweet.RetweetedTweet != null) 
+                    message = $"[RT {tweet.RetweetedTweet.CreatedBy.ScreenName}] {tweet.RetweetedTweet.FullText}";
+                else
+                    message = message.Replace("RT", "[RT]");
+            }
 
             return new ExtractedTweet
             {
