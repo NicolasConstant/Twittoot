@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Twittoot.Domain;
@@ -18,6 +19,8 @@ namespace Twittoot
         [STAThread]
         static void Main(string[] args)
         {
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
             var container = GetContainer();
 
             if (args.Contains("setup"))

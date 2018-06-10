@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using mastodon;
 using mastodon.Enums;
@@ -65,28 +66,27 @@ namespace Twittoot.Mastodon
             {
                 //Get Oauth Code
                 var oauthCodeUrl = authHandler.GetOauthCodeUrl(appInfo.client_id, AppScopeEnum.Read | AppScopeEnum.Write | AppScopeEnum.Follow);
-                var mastodonWindows = new MastodonOauth(oauthCodeUrl);
-                mastodonWindows.ShowDialog();
+
+                var code = "";
+                var t = Task.Factory.StartNew
+                (
+                    () =>
+                    {
+                        var mastodonWindows = new MastodonOauth(oauthCodeUrl);
+                        mastodonWindows.ShowDialog();
+                        code = mastodonWindows.Code;
+                    },
+                    CancellationToken.None,
+                    TaskCreationOptions.None,
+                    TaskScheduler.FromCurrentSynchronizationContext()
+                );
+                
+                t.Wait();
 
                 //Get token
-                var token = await authHandler.GetTokenInfoAsync(appInfo.client_id, appInfo.client_secret, mastodonWindows.Code);
+                var token = await authHandler.GetTokenInfoAsync(appInfo.client_id, appInfo.client_secret, code);
                 return token.access_token;
             }
-            
-            ////Get Oauth Code
-            //var oauthCodeUrl = $"{mastodonInstance}/oauth/authorize?scope=read%20write%20follow&response_type=code&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id={appInfo.client_id}";
-            //var mastodonWindows = new MastodonOauth(oauthCodeUrl);
-            //mastodonWindows.ShowDialog();
-
-            ////Get AccessToken
-            //var accessTokenUrl = $"{mastodonInstance}/oauth/token?client_id={appInfo.client_id}&client_secret={appInfo.client_secret}&grant_type=authorization_code&code={mastodonWindows.Code}&redirect_uri=urn:ietf:wg:oauth:2.0:oob";
-
-            //var client = new HttpClient();
-            //var response = await client.PostAsync(accessTokenUrl, null);
-            //var oauthReturnJson = await response.Content.ReadAsStringAsync();
-            //var oauthReturn = JsonConvert.DeserializeObject<OauthReturn>(oauthReturnJson);
-
-            //return oauthReturn.access_token;
         }
 
         public class OauthReturn
@@ -96,7 +96,7 @@ namespace Twittoot.Mastodon
             public string scope { get; set; }
             public int created_at { get; set; }
         }
-        
+
         public async Task SubmitTootAsync(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds)
         {
             var client = GetClient(mastodonInstance);
