@@ -61,20 +61,32 @@ namespace Twittoot.Mastodon
 
         public async Task<string> GetAccessTokenAsync(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance)
         {
-            //Get Oauth Code
-            var oauthCodeUrl = $"{mastodonInstance}/oauth/authorize?scope=read%20write%20follow&response_type=code&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id={appInfo.client_id}";
-            var mastodonWindows = new MastodonOauth(oauthCodeUrl);
-            mastodonWindows.ShowDialog();
+            using (var authHandler = new AuthHandler(mastodonInstance))
+            {
+                //Get Oauth Code
+                var oauthCodeUrl = authHandler.GetOauthCodeUrl(appInfo.client_id, AppScopeEnum.Read | AppScopeEnum.Write | AppScopeEnum.Follow);
+                var mastodonWindows = new MastodonOauth(oauthCodeUrl);
+                mastodonWindows.ShowDialog();
 
-            //Get AccessToken
-            var accessTokenUrl = $"{mastodonInstance}/oauth/token?client_id={appInfo.client_id}&client_secret={appInfo.client_secret}&grant_type=authorization_code&code={mastodonWindows.Code}&redirect_uri=urn:ietf:wg:oauth:2.0:oob";
+                //Get token
+                var token = await authHandler.GetTokenInfoAsync(appInfo.client_id, appInfo.client_secret, mastodonWindows.Code);
+                return token.access_token;
+            }
+            
+            ////Get Oauth Code
+            //var oauthCodeUrl = $"{mastodonInstance}/oauth/authorize?scope=read%20write%20follow&response_type=code&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id={appInfo.client_id}";
+            //var mastodonWindows = new MastodonOauth(oauthCodeUrl);
+            //mastodonWindows.ShowDialog();
 
-            var client = new HttpClient();
-            var response = await client.PostAsync(accessTokenUrl, null);
-            var oauthReturnJson = await response.Content.ReadAsStringAsync();
-            var oauthReturn = JsonConvert.DeserializeObject<OauthReturn>(oauthReturnJson);
+            ////Get AccessToken
+            //var accessTokenUrl = $"{mastodonInstance}/oauth/token?client_id={appInfo.client_id}&client_secret={appInfo.client_secret}&grant_type=authorization_code&code={mastodonWindows.Code}&redirect_uri=urn:ietf:wg:oauth:2.0:oob";
 
-            return oauthReturn.access_token;
+            //var client = new HttpClient();
+            //var response = await client.PostAsync(accessTokenUrl, null);
+            //var oauthReturnJson = await response.Content.ReadAsStringAsync();
+            //var oauthReturn = JsonConvert.DeserializeObject<OauthReturn>(oauthReturnJson);
+
+            //return oauthReturn.access_token;
         }
 
         public class OauthReturn
