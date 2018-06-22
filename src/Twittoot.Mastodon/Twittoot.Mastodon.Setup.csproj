@@ -7,8 +7,8 @@
     <ProjectGuid>{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Twittoot.Mastodon</RootNamespace>
-    <AssemblyName>Twittoot.Mastodon</AssemblyName>
+    <RootNamespace>Twittoot.Mastodon.Setup</RootNamespace>
+    <AssemblyName>Twittoot.Mastodon.Setup</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -110,7 +110,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MastodonService.cs" />
+    <Compile Include="MastodonServiceSetup.cs" />
     <Compile Include="Models\AppInfoWrapper.cs" />
     <Compile Include="Models\AttachementResult.cs" />
     <Compile Include="Oauth\MastodonOauth.xaml.cs">
@@ -132,9 +132,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Twittoot.Common\Twittoot.Common.csproj">
-      <Project>{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}</Project>
-      <Name>Twittoot.Common</Name>
+    <ProjectReference Include="..\Twittoot.Mastodon.Std\Twittoot.Mastodon.Std.csproj">
+      <Project>{37e476db-1b07-4b21-987b-bef696e5a59f}</Project>
+      <Name>Twittoot.Mastodon.Std</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Twittot.Common.Std\Twittot.Common.Std.csproj">
+      <Project>{124e22f2-29df-45a2-a134-6d5772328b82}</Project>
+      <Name>Twittot.Common.Std</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

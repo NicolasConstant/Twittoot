@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Wrappers", "API Wrapper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Twitter", "Twittoot.Twitter\Twittoot.Twitter.csproj", "{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Mastodon", "Twittoot.Mastodon\Twittoot.Mastodon.csproj", "{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Mastodon.Setup", "Twittoot.Mastodon\Twittoot.Mastodon.Setup.csproj", "{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{C11A4E35-30C2-4335-92A6-BD0D032A42BE}"
 EndProject
@@ -21,11 +21,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Twitter.Tests", "T
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8A992C18-1444-4231-B09D-0B6CBEE05444}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Common", "Twittoot.Common\Twittoot.Common.csproj", "{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Mastodon.Tests", "Tests\Twittoot.Mastodon.Tests\Twittoot.Mastodon.Tests.csproj", "{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwittootFunction", "TwittootFunction\TwittootFunction.csproj", "{1EB5EBE3-DA09-4D88-A38E-FD88B57D5A94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwittootFunction", "TwittootFunction\TwittootFunction.csproj", "{1EB5EBE3-DA09-4D88-A38E-FD88B57D5A94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Mastodon.Std", "Twittoot.Mastodon.Std\Twittoot.Mastodon.Std.csproj", "{37E476DB-1B07-4B21-987B-BEF696E5A59F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittot.Common.Std", "Twittot.Common.Std\Twittot.Common.Std.csproj", "{124E22F2-29DF-45A2-A134-6D5772328B82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +55,6 @@ Global
 		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,6 +63,14 @@ Global
 		{1EB5EBE3-DA09-4D88-A38E-FD88B57D5A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EB5EBE3-DA09-4D88-A38E-FD88B57D5A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EB5EBE3-DA09-4D88-A38E-FD88B57D5A94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37E476DB-1B07-4B21-987B-BEF696E5A59F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37E476DB-1B07-4B21-987B-BEF696E5A59F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37E476DB-1B07-4B21-987B-BEF696E5A59F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37E476DB-1B07-4B21-987B-BEF696E5A59F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{124E22F2-29DF-45A2-A134-6D5772328B82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{124E22F2-29DF-45A2-A134-6D5772328B82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{124E22F2-29DF-45A2-A134-6D5772328B82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{124E22F2-29DF-45A2-A134-6D5772328B82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,8 +80,9 @@ Global
 		{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75} = {CA699BA5-B852-4000-A0AB-9E5C49E2725E}
 		{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1} = {C11A4E35-30C2-4335-92A6-BD0D032A42BE}
 		{6C9E99FF-E1C8-4763-A107-EB3B83401EC0} = {945F9205-B57B-4483-90A4-0CC2751AC33B}
-		{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA} = {8A992C18-1444-4231-B09D-0B6CBEE05444}
 		{B8BB3F93-88EE-4CE3-9197-2F567A41DF6A} = {945F9205-B57B-4483-90A4-0CC2751AC33B}
+		{37E476DB-1B07-4B21-987B-BEF696E5A59F} = {CA699BA5-B852-4000-A0AB-9E5C49E2725E}
+		{124E22F2-29DF-45A2-A134-6D5772328B82} = {8A992C18-1444-4231-B09D-0B6CBEE05444}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80914C9C-1687-464E-8DCF-4174FCA9DD2E}

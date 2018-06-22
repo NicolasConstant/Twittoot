@@ -129,9 +129,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Twittoot.Common\Twittoot.Common.csproj">
-      <Project>{B27A75E8-4F40-4625-AB5B-B0EAB504A1BA}</Project>
-      <Name>Twittoot.Common</Name>
+    <ProjectReference Include="..\Twittot.Common.Std\Twittot.Common.Std.csproj">
+      <Project>{124E22F2-29DF-45A2-A134-6D5772328B82}</Project>
+      <Name>Twittot.Common.Std</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

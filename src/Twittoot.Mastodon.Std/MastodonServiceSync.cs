@@ -3,99 +3,94 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using mastodon;
 using mastodon.Enums;
-using Newtonsoft.Json;
-using Twittoot.Mastodon.Models;
-using Twittoot.Mastodon.Oauth;
-using Twittoot.Mastodon.Repositories;
+using Twittoot.Mastodon.Std.Models;
+using Twittoot.Mastodon.Std.Repositories;
 
-namespace Twittoot.Mastodon
+namespace Twittoot.Mastodon.Std
 {
-    public interface IMastodonService
+    public interface IMastodonServiceSync
     {
-        Task<AppInfoWrapper> GetAppInfoAsync(string mastodonInstance);
-        Task<string> GetAccessTokenAsync(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance);
+        //Task<AppInfoWrapper> GetAppInfoAsync(string mastodonInstance);
+        //Task<string> GetAccessTokenAsync(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance);
         Task<IEnumerable<AttachementResult>> SubmitAttachementsAsync(string accessToken, string mastodonInstance, string[] attachementUrls);
         Task SubmitTootAsync(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds);
     }
 
-    public class MastodonService : IMastodonService
+    public class MastodonServiceSync : IMastodonServiceSync
     {
         private readonly IInstancesRepository _instancesRepository;
         private readonly Dictionary<string, MastodonClient> _mastodonClientDict;
 
         #region Ctor
-        public MastodonService(IInstancesRepository instancesRepository)
+        public MastodonServiceSync(IInstancesRepository instancesRepository)
         {
             _instancesRepository = instancesRepository;
             _mastodonClientDict = new Dictionary<string, MastodonClient>();
         }
         #endregion
 
-        public async Task<AppInfoWrapper> GetAppInfoAsync(string mastodonInstanceUrl)
-        {
-            var instances = _instancesRepository.GetAllInstances().ToList();
-            if (instances.Any(x => x.InstanceUrl == mastodonInstanceUrl))
-                return instances.Find(x => x.InstanceUrl == mastodonInstanceUrl);
+        //public async Task<AppInfoWrapper> GetAppInfoAsync(string mastodonInstanceUrl)
+        //{
+        //    var instances = _instancesRepository.GetAllInstances().ToList();
+        //    if (instances.Any(x => x.InstanceUrl == mastodonInstanceUrl))
+        //        return instances.Find(x => x.InstanceUrl == mastodonInstanceUrl);
 
-            //Create new instance app
-            var appHandler = new AppHandler(mastodonInstanceUrl);
-            var scopes = AppScopeEnum.Read | AppScopeEnum.Write | AppScopeEnum.Follow;
-            var appData = await appHandler.CreateAppAsync("Twittoot", scopes, "https://github.com/NicolasConstant/Twittoot");
+        //    //Create new instance app
+        //    var appHandler = new AppHandler(mastodonInstanceUrl);
+        //    var scopes = AppScopeEnum.Read | AppScopeEnum.Write | AppScopeEnum.Follow;
+        //    var appData = await appHandler.CreateAppAsync("Twittoot", scopes, "https://github.com/NicolasConstant/Twittoot");
 
-            //Create new wrapper 
-            var appDataWrapper = new AppInfoWrapper(mastodonInstanceUrl, appData);
+        //    //Create new wrapper 
+        //    var appDataWrapper = new AppInfoWrapper(mastodonInstanceUrl, appData);
 
-            //Save it
-            instances.Add(appDataWrapper);
-            _instancesRepository.SaveInstances(instances.ToArray());
+        //    //Save it
+        //    instances.Add(appDataWrapper);
+        //    _instancesRepository.SaveInstances(instances.ToArray());
 
-            //Returns 
-            return appDataWrapper;
-        }
+        //    //Returns 
+        //    return appDataWrapper;
+        //}
 
-        public async Task<string> GetAccessTokenAsync(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance)
-        {
-            using (var authHandler = new AuthHandler(mastodonInstance))
-            {
-                //Get Oauth Code
-                var oauthCodeUrl = authHandler.GetOauthCodeUrl(appInfo.client_id, AppScopeEnum.Read | AppScopeEnum.Write | AppScopeEnum.Follow);
+        //public async Task<string> GetAccessTokenAsync(AppInfoWrapper appInfo, string mastodonName, string mastodonInstance)
+        //{
+        //    using (var authHandler = new AuthHandler(mastodonInstance))
+        //    {
+        //        //Get Oauth Code
+        //        var oauthCodeUrl = authHandler.GetOauthCodeUrl(appInfo.client_id, AppScopeEnum.Read | AppScopeEnum.Write | AppScopeEnum.Follow);
 
-                var code = "";
-                var t = Task.Factory.StartNew
-                (
-                    () =>
-                    {
-                        var mastodonWindows = new MastodonOauth(oauthCodeUrl);
-                        mastodonWindows.ShowDialog();
-                        code = mastodonWindows.Code;
-                    },
-                    CancellationToken.None,
-                    TaskCreationOptions.None,
-                    TaskScheduler.FromCurrentSynchronizationContext()
-                );
+        //        var code = "";
+        //        var t = Task.Factory.StartNew
+        //        (
+        //            () =>
+        //            {
+        //                var mastodonWindows = new MastodonOauth(oauthCodeUrl);
+        //                mastodonWindows.ShowDialog();
+        //                code = mastodonWindows.Code;
+        //            },
+        //            CancellationToken.None,
+        //            TaskCreationOptions.None,
+        //            TaskScheduler.FromCurrentSynchronizationContext()
+        //        );
                 
-                t.Wait();
+        //        t.Wait();
 
-                //Get token
-                var token = await authHandler.GetTokenInfoAsync(appInfo.client_id, appInfo.client_secret, code);
-                return token.access_token;
-            }
-        }
+        //        //Get token
+        //        var token = await authHandler.GetTokenInfoAsync(appInfo.client_id, appInfo.client_secret, code);
+        //        return token.access_token;
+        //    }
+        //}
 
-        public class OauthReturn
-        {
-            public string access_token { get; set; }
-            public string token_type { get; set; }
-            public string scope { get; set; }
-            public int created_at { get; set; }
-        }
+        //public class OauthReturn
+        //{
+        //    public string access_token { get; set; }
+        //    public string token_type { get; set; }
+        //    public string scope { get; set; }
+        //    public int created_at { get; set; }
+        //}
 
         public async Task SubmitTootAsync(string accessToken, string mastodonInstance, string lastTweetFullText, int[] attachementsIds)
         {

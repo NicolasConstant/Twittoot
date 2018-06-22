@@ -60,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Twittoot.Mastodon\Twittoot.Mastodon.csproj">
+    <ProjectReference Include="..\..\Twittoot.Mastodon\Twittoot.Mastodon.Setup.csproj">
       <Project>{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}</Project>
-      <Name>Twittoot.Mastodon</Name>
+      <Name>Twittoot.Mastodon.Setup</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
