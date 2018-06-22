@@ -29,7 +29,7 @@ namespace Twittot.Twitter.Std.Repositories
         public void SaveTwitterUserApiSettings(TwitterUserApiSettings settings)
         {
             var userSettingPath = TwittootLocation.GetUserFilePath(UserSettingsFileName);
-            var json = JsonConvert.SerializeObject(userSettingPath);
+            var json = JsonConvert.SerializeObject(settings);
             File.WriteAllText(userSettingPath, json);
         }
     }
