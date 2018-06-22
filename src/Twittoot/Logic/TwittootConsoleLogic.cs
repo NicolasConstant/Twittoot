@@ -52,20 +52,7 @@ namespace Twittoot.Logic
 
         private async Task AddNewAccount()
         {
-            Console.WriteLine();
-            Console.WriteLine("Provide Twitter Name");
-            var twitterName = Console.ReadLine();
-
-            Console.WriteLine();
-            Console.WriteLine("Provide Mastodon Name");
-            var mastodonName = Console.ReadLine();
-
-
-            Console.WriteLine();
-            Console.WriteLine("Provide Mastodon Instance");
-            var mastodonInstance = Console.ReadLine();
-
-            await _setupService.RegisterNewAccountAsync(twitterName, mastodonName, mastodonInstance);
+            await _setupService.RegisterNewAccountAsync();
         }
 
         private void ListAllAccount()

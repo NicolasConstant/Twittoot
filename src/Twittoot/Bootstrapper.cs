@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Linq;
+using Twittoot.Domain;
 using Twittoot.Mastodon;
 using Twittoot.Mastodon.Setup;
+using Twittoot.Mastodon.Std;
 using Twittoot.Twitter;
 using Twittoot.Twitter.Setup;
 using Twittot.Domain.Sync.Repositories;
@@ -17,11 +19,13 @@ namespace Twittoot
         {
             var container = new UnityContainer();
             
-            //TODO fix this
             container.RegisterType<ISyncAccountsRepository, SyncAccountsRepository>(new ContainerControlledLifetimeManager());
             container.RegisterType<ITwitterSetupService, TwitterSetupService>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ITwitterSyncService, TwitterSyncService>(new ContainerControlledLifetimeManager());
             container.RegisterType<IMastodonSetupService, MastodonSetupService>(new ContainerControlledLifetimeManager());
-
+            container.RegisterType<IMastodonSyncService, MastodonSyncService>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ITwittootSetupFacade, TwittootSetupFacade>(new ContainerControlledLifetimeManager());
+            
             // Register repositories
             container.RegisterTypes(
                 AllClasses.FromLoadedAssemblies().Where(x => x.Name.EndsWith("Repository")),

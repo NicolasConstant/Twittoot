@@ -14,7 +14,7 @@ namespace Twittoot.Domain
 {
     public interface ITwittootSetupFacade
     {
-        Task RegisterNewAccountAsync(string twitterName, string mastodonName, string mastodonInstance);
+        Task RegisterNewAccountAsync();
         SyncAccount[] GetAllAccounts();
         void DeleteAccount(Guid accountId);
     }
@@ -34,13 +34,25 @@ namespace Twittoot.Domain
         }
         #endregion
 
-        public async Task RegisterNewAccountAsync(string twitterName, string mastodonName, string mastodonInstance)
+        public async Task RegisterNewAccountAsync()
         {
             //Ensure Twitter client is properly set
             var isTwitterSet = _twitterSetupService.IsTwitterSet();
             if(!isTwitterSet) _twitterSetupService.InitAndSaveTwitterAccount();
 
             //Create mastodon profile
+            Console.WriteLine();
+            Console.WriteLine("Provide Twitter Name");
+            var twitterName = Console.ReadLine();
+
+            Console.WriteLine();
+            Console.WriteLine("Provide Mastodon Name");
+            var mastodonName = Console.ReadLine();
+
+
+            Console.WriteLine();
+            Console.WriteLine("Provide Mastodon Instance");
+            var mastodonInstance = Console.ReadLine();
             var appInfo = await _mastodonService.GetAppInfoAsync(mastodonInstance);
             var userToken = await _mastodonService.GetAccessTokenAsync(appInfo, mastodonName, mastodonInstance);
 
