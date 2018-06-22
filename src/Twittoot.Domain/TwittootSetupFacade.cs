@@ -12,15 +12,14 @@ using Twittoot.Twitter;
 
 namespace Twittoot.Domain
 {
-    public interface ITwittootFacade
+    public interface ITwittootSetupFacade
     {
         Task RegisterNewAccountAsync(string twitterName, string mastodonName, string mastodonInstance);
         SyncAccount[] GetAllAccounts();
         void DeleteAccount(Guid accountId);
-        Task RunAsync();
     }
 
-    public class TwittootFacade : ITwittootFacade
+    public class TwittootSetupFacade : ITwittootSetupFacade
     {
         private readonly ITwitterService _twitterService;
         private readonly IMastodonService _mastodonService;
@@ -28,7 +27,7 @@ namespace Twittoot.Domain
         private readonly ProcessAccountSyncFactory _processAccountSyncFactory;
 
         #region Ctor
-        public TwittootFacade(ITwitterService twitterService, IMastodonService mastodonService, ISyncAccountsRepository syncAccountsRepository, ProcessAccountSyncFactory processAccountSyncFactory)
+        public TwittootSetupFacade(ITwitterService twitterService, IMastodonService mastodonService, ISyncAccountsRepository syncAccountsRepository, ProcessAccountSyncFactory processAccountSyncFactory)
         {
             _twitterService = twitterService;
             _mastodonService = mastodonService;
@@ -73,15 +72,15 @@ namespace Twittoot.Domain
             _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
         }
 
-        public async Task RunAsync()
-        {
-            var accounts = _syncAccountsRepository.GetAllAccounts();
+        //public async Task RunAsync()
+        //{
+        //    var accounts = _syncAccountsRepository.GetAllAccounts();
             
-            foreach (var syncAccount in accounts)
-            {
-                var action = _processAccountSyncFactory.GetAccountSync(syncAccount);
-                await action.Execute();
-            }
-        }
+        //    foreach (var syncAccount in accounts)
+        //    {
+        //        var action = _processAccountSyncFactory.GetAccountSync(syncAccount);
+        //        await action.Execute();
+        //    }
+        //}
     }
 }

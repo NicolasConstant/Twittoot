@@ -104,7 +104,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Twittoot.Domain\Twittoot.Domain.csproj">
+    <ProjectReference Include="..\Twittoot.Domain\Twittoot.Domain.Setup.csproj">
       <Project>{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1}</Project>
       <Name>Twittoot.Domain</Name>
     </ProjectReference>
@@ -112,7 +112,7 @@
       <Project>{86e019b5-e7fe-4c20-bb98-77e9ceab0d75}</Project>
       <Name>Twittoot.Mastodon.Setup</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Twittoot.Twitter\Twittoot.Twitter.csproj">
+    <ProjectReference Include="..\Twittoot.Twitter\Twittoot.Twitter.Setup.csproj">
       <Project>{d45be223-3c21-4a8c-9ccf-5ce26bca45fe}</Project>
       <Name>Twittoot.Twitter</Name>
     </ProjectReference>

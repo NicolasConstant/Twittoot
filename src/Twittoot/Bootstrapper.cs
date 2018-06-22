@@ -2,7 +2,9 @@
 using System.Linq;
 using Twittoot.Domain.Repositories;
 using Twittoot.Mastodon;
+using Twittoot.Mastodon.Setup;
 using Twittoot.Twitter;
+using Twittoot.Twitter.Setup;
 using Unity;
 using Unity.Lifetime;
 using Unity.RegistrationByConvention;
@@ -17,8 +19,8 @@ namespace Twittoot
             
             //TODO fix this
             container.RegisterType<ISyncAccountsRepository, SyncAccountsRepository>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ITwitterService, TwitterService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IMastodonService, MastodonService>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ITwitterSetupService, TwitterSetupService>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IMastodonSetupService, MastodonSetupService>(new ContainerControlledLifetimeManager());
 
             // Register repositories
             container.RegisterTypes(

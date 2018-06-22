@@ -7,8 +7,8 @@
     <ProjectGuid>{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Twittoot.Twitter</RootNamespace>
-    <AssemblyName>Twittoot.Twitter</AssemblyName>
+    <RootNamespace>Twittoot.Twitter.Setup</RootNamespace>
+    <AssemblyName>Twittoot.Twitter.Setup</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -105,7 +105,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dtos\ExtractedTweet.cs" />
     <Compile Include="Oauth\TwitterOauth.xaml.cs">
       <DependentUpon>TwitterOauth.xaml</DependentUpon>
     </Compile>
@@ -113,7 +112,7 @@
     <Compile Include="Settings\TwitterDevApiSettings.cs" />
     <Compile Include="Settings\TwitterUserApiSettings.cs" />
     <Compile Include="Tools\PinAuthenticator.cs" />
-    <Compile Include="TwitterService.cs" />
+    <Compile Include="TwitterSetupService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +131,10 @@
     <ProjectReference Include="..\Twittot.Common.Std\Twittot.Common.Std.csproj">
       <Project>{124E22F2-29DF-45A2-A134-6D5772328B82}</Project>
       <Name>Twittot.Common.Std</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Twittot.Twitter.Std\Twittot.Twitter.Std.csproj">
+      <Project>{3a2ea852-511f-4684-9ea9-2fbad5641ac7}</Project>
+      <Name>Twittot.Twitter.Std</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

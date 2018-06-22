@@ -1,4 +1,4 @@
-﻿namespace Twittoot.Twitter.Dtos
+﻿namespace Twittoot.Twitter.Setup.Dtos
 {
     public class ExtractedTweet
     {

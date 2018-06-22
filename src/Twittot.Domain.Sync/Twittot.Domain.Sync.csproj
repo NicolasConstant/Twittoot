@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Twittoot.Mastodon.Std\Twittoot.Mastodon.Std.csproj" />
+    <ProjectReference Include="..\Twittot.Common.Std\Twittot.Common.Std.csproj" />
+    <ProjectReference Include="..\Twittot.Twitter.Std\Twittot.Twitter.Std.csproj" />
+  </ItemGroup>
+
+</Project>

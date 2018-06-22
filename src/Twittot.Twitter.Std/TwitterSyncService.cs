@@ -1,30 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
-using Twittoot.Twitter.Dtos;
-using Twittoot.Twitter.Repositories;
-using Twittoot.Twitter.Settings;
+using Twittoot.Twitter.Setup.Dtos;
+using Twittoot.Twitter.Setup.Repositories;
 
-namespace Twittoot.Twitter
+namespace Twittoot.Twitter.Setup
 {
-    public interface ITwitterService
+    public interface ITwitterSyncService
     {
         ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1);
         void EnsureTwitterIsReady();
     }
 
-    public class TwitterService : ITwitterService
+    public class TwitterSyncService : ITwitterSyncService
     {
         private readonly ITwitterSettingsRepository _twitterSettingsRepository;
 
         #region Ctor
-        public TwitterService(ITwitterSettingsRepository twitterSettingsRepository)
+        public TwitterSyncService(ITwitterSettingsRepository twitterSettingsRepository)
         {
             _twitterSettingsRepository = twitterSettingsRepository;
         }

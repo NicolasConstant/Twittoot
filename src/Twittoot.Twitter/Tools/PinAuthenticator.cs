@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Windows;
 using Tweetinvi;
 using Tweetinvi.Models;
-using Twittoot.Twitter.Oauth;
-using Twittoot.Twitter.Settings;
+using Twittoot.Twitter.Setup.Oauth;
+using Twittoot.Twitter.Setup.Settings;
 
-namespace Twittoot.Twitter.Tools
+namespace Twittoot.Twitter.Setup.Tools
 {
     public class PinAuthenticator
     {

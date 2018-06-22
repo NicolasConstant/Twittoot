@@ -7,8 +7,8 @@
     <ProjectGuid>{0DE16FF5-77E9-4F5C-8690-7E15E1AEF0B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Twittoot.Domain</RootNamespace>
-    <AssemblyName>Twittoot.Domain</AssemblyName>
+    <RootNamespace>Twittoot.Domain.Setup</RootNamespace>
+    <AssemblyName>Twittoot.Domain.Setup</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -48,7 +48,7 @@
     <Compile Include="Factories\ProcessAccountSyncFactory.cs" />
     <Compile Include="Models\SyncAccount.cs" />
     <Compile Include="Repositories\SyncAccountsRepository.cs" />
-    <Compile Include="TwittootFacade.cs" />
+    <Compile Include="TwittootSetupFacade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +56,9 @@
       <Project>{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}</Project>
       <Name>Twittoot.Mastodon.Setup</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Twittoot.Twitter\Twittoot.Twitter.csproj">
+    <ProjectReference Include="..\Twittoot.Twitter\Twittoot.Twitter.Setup.csproj">
       <Project>{D45BE223-3C21-4A8C-9CCF-5CE26BCA45FE}</Project>
-      <Name>Twittoot.Twitter</Name>
+      <Name>Twittoot.Twitter.Setup</Name>
     </ProjectReference>
     <ProjectReference Include="..\Twittot.Common.Std\Twittot.Common.Std.csproj">
       <Project>{124E22F2-29DF-45A2-A134-6D5772328B82}</Project>

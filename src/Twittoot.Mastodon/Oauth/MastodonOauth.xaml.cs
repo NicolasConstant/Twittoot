@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
-namespace Twittoot.Mastodon.Oauth
+namespace Twittoot.Mastodon.Setup.Oauth
 {
     /// <summary>
     /// Interaction logic for TwitterOauth.xaml
