@@ -27,11 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwittootFunction", "Twittoo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twittoot.Mastodon.Std", "Twittoot.Mastodon.Std\Twittoot.Mastodon.Std.csproj", "{37E476DB-1B07-4B21-987B-BEF696E5A59F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twittot.Common.Std", "Twittot.Common.Std\Twittot.Common.Std.csproj", "{124E22F2-29DF-45A2-A134-6D5772328B82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Twittoot.Common.Std", "Twittoot.Common.Std\Twittoot.Common.Std.csproj", "{124E22F2-29DF-45A2-A134-6D5772328B82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittot.Twitter.Std", "Twittot.Twitter.Std\Twittot.Twitter.Std.csproj", "{3A2EA852-511F-4684-9EA9-2FBAD5641AC7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Twitter.Std", "Twittoot.Twitter.Std\Twittoot.Twitter.Std.csproj", "{3A2EA852-511F-4684-9EA9-2FBAD5641AC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittot.Domain.Sync", "Twittot.Domain.Sync\Twittot.Domain.Sync.csproj", "{20AB970E-BFC7-47EF-A2EE-1FE5918F35CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twittoot.Domain.Sync", "Twittoot.Domain.Sync\Twittoot.Domain.Sync.csproj", "{20AB970E-BFC7-47EF-A2EE-1FE5918F35CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

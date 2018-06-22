@@ -131,11 +131,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Twittot.Common.Std\Twittot.Common.Std.csproj">
+    <ProjectReference Include="..\Twittoot.Common.Std\Twittoot.Common.Std.csproj">
       <Project>{124E22F2-29DF-45A2-A134-6D5772328B82}</Project>
       <Name>Twittot.Common.Std</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Twittot.Twitter.Std\Twittot.Twitter.Std.csproj">
+    <ProjectReference Include="..\Twittoot.Twitter.Std\Twittoot.Twitter.Std.csproj">
       <Project>{3a2ea852-511f-4684-9ea9-2fbad5641ac7}</Project>
       <Name>Twittot.Twitter.Std</Name>
     </ProjectReference>

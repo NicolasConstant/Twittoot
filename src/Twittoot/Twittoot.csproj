@@ -156,11 +156,11 @@
       <Project>{d45be223-3c21-4a8c-9ccf-5ce26bca45fe}</Project>
       <Name>Twittoot.Twitter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Twittot.Domain.Sync\Twittot.Domain.Sync.csproj">
+    <ProjectReference Include="..\Twittoot.Domain.Sync\Twittoot.Domain.Sync.csproj">
       <Project>{20ab970e-bfc7-47ef-a2ee-1fe5918f35ca}</Project>
       <Name>Twittot.Domain.Sync</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Twittot.Twitter.Std\Twittot.Twitter.Std.csproj">
+    <ProjectReference Include="..\Twittoot.Twitter.Std\Twittoot.Twitter.Std.csproj">
       <Project>{3A2EA852-511F-4684-9EA9-2FBAD5641AC7}</Project>
       <Name>Twittot.Twitter.Std</Name>
     </ProjectReference>

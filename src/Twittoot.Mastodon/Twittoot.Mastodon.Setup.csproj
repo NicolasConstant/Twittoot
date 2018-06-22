@@ -135,7 +135,7 @@
       <Project>{37e476db-1b07-4b21-987b-bef696e5a59f}</Project>
       <Name>Twittoot.Mastodon.Std</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Twittot.Common.Std\Twittot.Common.Std.csproj">
+    <ProjectReference Include="..\Twittoot.Common.Std\Twittoot.Common.Std.csproj">
       <Project>{124e22f2-29df-45a2-a134-6d5772328b82}</Project>
       <Name>Twittot.Common.Std</Name>
     </ProjectReference>

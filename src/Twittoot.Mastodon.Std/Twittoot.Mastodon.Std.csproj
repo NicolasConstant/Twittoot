@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Twittot.Common.Std\Twittot.Common.Std.csproj" />
+    <ProjectReference Include="..\Twittoot.Common.Std\Twittoot.Common.Std.csproj" />
   </ItemGroup>
 
 </Project>
