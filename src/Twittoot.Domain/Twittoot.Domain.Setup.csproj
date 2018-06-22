@@ -44,10 +44,6 @@
     <Reference Include="Tweetinvi, Version=1.3.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessRules\ProcessAccountSynchronisation.cs" />
-    <Compile Include="Factories\ProcessAccountSyncFactory.cs" />
-    <Compile Include="Models\SyncAccount.cs" />
-    <Compile Include="Repositories\SyncAccountsRepository.cs" />
     <Compile Include="TwittootSetupFacade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
