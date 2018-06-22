@@ -48,6 +48,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Twittoot.Mastodon.Std\Twittoot.Mastodon.Std.csproj">
+      <Project>{37E476DB-1B07-4B21-987B-BEF696E5A59F}</Project>
+      <Name>Twittoot.Mastodon.Std</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Twittoot.Mastodon\Twittoot.Mastodon.Setup.csproj">
       <Project>{86E019B5-E7FE-4C20-BB98-77E9CEAB0D75}</Project>
       <Name>Twittoot.Mastodon.Setup</Name>
@@ -59,6 +63,10 @@
     <ProjectReference Include="..\Twittot.Common.Std\Twittot.Common.Std.csproj">
       <Project>{124E22F2-29DF-45A2-A134-6D5772328B82}</Project>
       <Name>Twittot.Common.Std</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Twittot.Domain.Sync\Twittot.Domain.Sync.csproj">
+      <Project>{20ab970e-bfc7-47ef-a2ee-1fe5918f35ca}</Project>
+      <Name>Twittot.Domain.Sync</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

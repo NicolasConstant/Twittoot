@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Linq;
-using Twittoot.Domain.Repositories;
 using Twittoot.Mastodon;
 using Twittoot.Mastodon.Setup;
 using Twittoot.Twitter;
 using Twittoot.Twitter.Setup;
+using Twittot.Domain.Sync.Repositories;
 using Unity;
 using Unity.Lifetime;
 using Unity.RegistrationByConvention;

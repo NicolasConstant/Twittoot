@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Twittoot.Domain;
-using Twittoot.Domain.Repositories;
 using Twittoot.Logic;
 using Twittoot.Mastodon;
 using Twittoot.Twitter;

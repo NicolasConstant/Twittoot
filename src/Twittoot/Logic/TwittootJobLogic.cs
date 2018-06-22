@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Twittoot.Domain;
+using Twittot.Domain.Sync;
 
 namespace Twittoot.Logic
 {
     public class TwittootJobLogic
     {
-        private readonly ITwittootFacade _service;
+        private readonly ITwittootSyncFacade _service;
 
         #region Ctor
-        public TwittootJobLogic(ITwittootFacade service)
+        public TwittootJobLogic(ITwittootSyncFacade service)
         {
             _service = service;
         }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Twittoot.Domain.BusinessRules;
-using Twittoot.Domain.Factories;
-using Twittoot.Domain.Models;
-using Twittoot.Domain.Repositories;
-using Twittoot.Mastodon;
+using Twittoot.Mastodon.Setup;
 using Twittoot.Twitter;
+using Twittoot.Twitter.Setup;
+using Twittot.Domain.Sync.Factories;
+using Twittot.Domain.Sync.Models;
+using Twittot.Domain.Sync.Repositories;
 
 namespace Twittoot.Domain
 {
@@ -21,25 +21,24 @@ namespace Twittoot.Domain
 
     public class TwittootSetupFacade : ITwittootSetupFacade
     {
-        private readonly ITwitterService _twitterService;
-        private readonly IMastodonService _mastodonService;
+        private readonly ITwitterSetupService _twitterSetupService;
+        private readonly IMastodonSetupService _mastodonService;
         private readonly ISyncAccountsRepository _syncAccountsRepository;
-        private readonly ProcessAccountSyncFactory _processAccountSyncFactory;
 
         #region Ctor
-        public TwittootSetupFacade(ITwitterService twitterService, IMastodonService mastodonService, ISyncAccountsRepository syncAccountsRepository, ProcessAccountSyncFactory processAccountSyncFactory)
+        public TwittootSetupFacade(ITwitterSetupService twitterSetupService, IMastodonSetupService mastodonService, ISyncAccountsRepository syncAccountsRepository)
         {
-            _twitterService = twitterService;
+            _twitterSetupService = twitterSetupService;
             _mastodonService = mastodonService;
             _syncAccountsRepository = syncAccountsRepository;
-            _processAccountSyncFactory = processAccountSyncFactory;
         }
         #endregion
 
         public async Task RegisterNewAccountAsync(string twitterName, string mastodonName, string mastodonInstance)
         {
             //Ensure Twitter client is properly set
-            _twitterService.EnsureTwitterIsReady();
+            var isTwitterSet = _twitterSetupService.IsTwitterSet();
+            if(!isTwitterSet) _twitterSetupService.InitAndSaveTwitterAccount();
 
             //Create mastodon profile
             var appInfo = await _mastodonService.GetAppInfoAsync(mastodonInstance);
@@ -71,16 +70,5 @@ namespace Twittoot.Domain
             var allAccounts = _syncAccountsRepository.GetAllAccounts().Where(x => x.Id != accountId).Select(x => x).ToList();
             _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
         }
-
-        //public async Task RunAsync()
-        //{
-        //    var accounts = _syncAccountsRepository.GetAllAccounts();
-            
-        //    foreach (var syncAccount in accounts)
-        //    {
-        //        var action = _processAccountSyncFactory.GetAccountSync(syncAccount);
-        //        await action.Execute();
-        //    }
-        //}
     }
 }

@@ -2,17 +2,20 @@
 using System.IO;
 using System.Threading.Tasks;
 using Twittoot.Domain;
+using Twittot.Domain.Sync;
 
 namespace Twittoot.Logic
 {
     public class TwittootConsoleLogic
     {
-        private readonly ITwittootFacade _service;
+        private readonly ITwittootSetupFacade _setupService;
+        private readonly ITwittootSyncFacade _syncService;
 
         #region Ctor
-        public TwittootConsoleLogic(ITwittootFacade service)
+        public TwittootConsoleLogic(ITwittootSetupFacade setupService, ITwittootSyncFacade syncService)
         {
-            _service = service;
+            _setupService = setupService;
+            _syncService = syncService;
         }
         #endregion
 
@@ -44,7 +47,7 @@ namespace Twittoot.Logic
 
         private async Task RunSync()
         {
-            await _service.RunAsync();
+            await _syncService.RunAsync();
         }
 
         private async Task AddNewAccount()
@@ -62,13 +65,13 @@ namespace Twittoot.Logic
             Console.WriteLine("Provide Mastodon Instance");
             var mastodonInstance = Console.ReadLine();
 
-            await _service.RegisterNewAccountAsync(twitterName, mastodonName, mastodonInstance);
+            await _setupService.RegisterNewAccountAsync(twitterName, mastodonName, mastodonInstance);
         }
 
         private void ListAllAccount()
         {
             Console.WriteLine();
-            var accounts = _service.GetAllAccounts();
+            var accounts = _setupService.GetAllAccounts();
             foreach (var syncAccount in accounts)
                 Console.WriteLine($"{syncAccount.TwitterName} => {syncAccount.MastodonName}@{syncAccount.MastodonInstance}");
         }
@@ -76,7 +79,7 @@ namespace Twittoot.Logic
         private void DeleteAccount()
         {
             Console.WriteLine();
-            var accounts = _service.GetAllAccounts();
+            var accounts = _setupService.GetAllAccounts();
             for (var i = 0; i < accounts.Length; i++)
             {
                 var syncAccount = accounts[i];
@@ -93,7 +96,7 @@ namespace Twittoot.Logic
             }
 
             if (index <= accounts.Length && index > 0)
-                _service.DeleteAccount(accounts[--index].Id);
+                _setupService.DeleteAccount(accounts[--index].Id);
         }
 
         private void DisplayMenu()
