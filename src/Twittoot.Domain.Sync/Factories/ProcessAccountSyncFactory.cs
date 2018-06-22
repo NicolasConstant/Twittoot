@@ -1,10 +1,10 @@
-﻿using Twittoot.Mastodon.Std;
+﻿using Twittoot.Domain.Sync.BusinessRules;
+using Twittoot.Domain.Sync.Models;
+using Twittoot.Domain.Sync.Repositories;
+using Twittoot.Mastodon.Std;
 using Twittoot.Twitter.Setup;
-using Twittot.Domain.Sync.BusinessRules;
-using Twittot.Domain.Sync.Models;
-using Twittot.Domain.Sync.Repositories;
 
-namespace Twittot.Domain.Sync.Factories
+namespace Twittoot.Domain.Sync.Factories
 {
     public class ProcessAccountSyncFactory
     {

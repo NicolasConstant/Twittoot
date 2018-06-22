@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Twittoot.Domain;
-using Twittot.Domain.Sync;
+using Twittoot.Domain.Sync;
 
 namespace Twittoot.Logic
 {

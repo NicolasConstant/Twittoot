@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twittoot.Domain.Sync.Models;
+using Twittoot.Domain.Sync.Repositories;
 using Twittoot.Mastodon.Setup;
 using Twittoot.Twitter;
 using Twittoot.Twitter.Setup;
-using Twittot.Domain.Sync.Factories;
-using Twittot.Domain.Sync.Models;
-using Twittot.Domain.Sync.Repositories;
 
 namespace Twittoot.Domain
 {

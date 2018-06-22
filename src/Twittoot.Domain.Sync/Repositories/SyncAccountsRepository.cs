@@ -2,9 +2,9 @@
 using System.Linq;
 using Newtonsoft.Json;
 using Twittoot.Common;
-using Twittot.Domain.Sync.Models;
+using Twittoot.Domain.Sync.Models;
 
-namespace Twittot.Domain.Sync.Repositories
+namespace Twittoot.Domain.Sync.Repositories
 {
     public interface ISyncAccountsRepository
     {

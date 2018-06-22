@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Twittoot.Domain.Sync.Factories;
+using Twittoot.Domain.Sync.Repositories;
 using Twittoot.Mastodon.Std;
 using Twittoot.Twitter.Setup;
-using Twittot.Domain.Sync.Factories;
-using Twittot.Domain.Sync.Repositories;
 
-namespace Twittot.Domain.Sync
+namespace Twittoot.Domain.Sync
 {
     public interface ITwittootSyncFacade
     {

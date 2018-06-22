@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Twittoot.Domain.Sync.Models;
+using Twittoot.Domain.Sync.Repositories;
 using Twittoot.Mastodon.Std;
 using Twittoot.Twitter.Setup;
 using Twittoot.Twitter.Setup.Dtos;
-using Twittot.Domain.Sync.Models;
-using Twittot.Domain.Sync.Repositories;
 
-namespace Twittot.Domain.Sync.BusinessRules
+namespace Twittoot.Domain.Sync.BusinessRules
 {
     public class ProcessAccountSynchronisation
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Twittot.Domain.Sync.Models
+namespace Twittoot.Domain.Sync.Models
 {
     public class SyncAccount
     {
