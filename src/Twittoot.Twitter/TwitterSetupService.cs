@@ -5,100 +5,49 @@ using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
+using Twittoot.Twitter.Setup.Actions;
 using Twittoot.Twitter.Setup.Dtos;
-using Twittoot.Twitter.Setup.Repositories;
+using Twittot.Twitter.Std.Repositories;
 
 namespace Twittoot.Twitter.Setup
 {
     public interface ITwitterSetupService
     {
-        ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1);
-        void EnsureTwitterIsReady();
+        bool IsTwitterSet();
+        void InitAndSaveTwitterAccount();
     }
 
     public class TwitterSetupService : ITwitterSetupService
     {
-        private readonly ITwitterSettingsRepository _twitterSettingsRepository;
+        private readonly ITwitterUserSettingsRepository _twitterUserSettingsRepository;
+        private readonly ITwitterDevSettingsRepository _twitterDevSettingsRepository;
 
         #region Ctor
-        public TwitterSetupService(ITwitterSettingsRepository twitterSettingsRepository)
+        public TwitterSetupService(ITwitterUserSettingsRepository twitterUserSettingsRepository, ITwitterDevSettingsRepository twitterDevSettingsRepository)
         {
-            _twitterSettingsRepository = twitterSettingsRepository;
+            _twitterUserSettingsRepository = twitterUserSettingsRepository;
+            _twitterDevSettingsRepository = twitterDevSettingsRepository;
         }
         #endregion
-
-        public ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1)
+        
+        public bool IsTwitterSet()
         {
-            if(nberTweets > 200) 
-                throw new ArgumentException("More than 200 Tweets retrieval isn't supported");
+            var checkIfTwitterApiInfoSet = new CheckIfTwitterApiInfoSetAction(_twitterDevSettingsRepository);
+            var apiSet = checkIfTwitterApiInfoSet.Execute();
 
-            var devSettings = _twitterSettingsRepository.GetTwitterDevApiSettings();
-            var userSettings = _twitterSettingsRepository.GetTwitterUserApiSettings();
-            
-            Auth.SetUserCredentials(devSettings.ConsumerKey, devSettings.ConsumerSecret, userSettings.AccessToken, userSettings.AccessTokenSecret);
-            TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
+            var checkIfTwitterAccountSet = new CheckIfTwitterAccountSetAction(_twitterUserSettingsRepository);
+            var accountSet = checkIfTwitterAccountSet.Execute();
 
-            var user = User.GetUserFromScreenName(twitterUserName);
-
-            var tweets = new List<ITweet>();
-            if (fromTweetId == -1)
-            {
-                tweets.AddRange(Timeline.GetUserTimeline(user.Id, nberTweets));
-            }
-            else
-            {
-                var timelineRequestParameters = new UserTimelineParameters
-                {
-                    MaxId = fromTweetId - 1,
-                    MaximumNumberOfTweetsToRetrieve = nberTweets
-                };
-                tweets.AddRange(Timeline.GetUserTimeline(user.Id, timelineRequestParameters));
-
-            }
-
-            return tweets.Where(x => returnReplies || string.IsNullOrWhiteSpace(x.InReplyToScreenName)).Select(ExtractTweet).ToArray();
+            return apiSet && accountSet;
         }
 
-        private ExtractedTweet ExtractTweet(ITweet tweet)
+        public void InitAndSaveTwitterAccount()
         {
-            var tweetUrls = tweet.Media.Select(x => x.URL).Distinct();
+            var setApiData = new GetAndSaveTwitterApiDataAction(_twitterDevSettingsRepository);
+            setApiData.Execute();
 
-            var message = tweet.FullText;
-            foreach (var tweetUrl in tweetUrls)
-                message = message.Replace(tweetUrl, string.Empty).Trim();
-
-            if (tweet.QuotedTweet != null) message = $"[Quote RT] {message}";
-            if (tweet.IsRetweet)
-            {
-                if (tweet.RetweetedTweet != null) 
-                    message = $"[RT {tweet.RetweetedTweet.CreatedBy.ScreenName}] {tweet.RetweetedTweet.FullText}";
-                else
-                    message = message.Replace("RT", "[RT]");
-            }
-
-            return new ExtractedTweet
-            {
-                Id = tweet.Id,
-                MessageContent = message,
-                MediaUrls = tweet.Media.Select(GetMediaUrl).Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x).ToArray()
-            };
-        }
-
-        private string GetMediaUrl(IMediaEntity media)
-        {
-            switch (media.MediaType)
-            {
-                case "photo": return media.MediaURLHttps;
-                case "animated_gif": return media.VideoDetails.Variants[0].URL;
-                case "video": return media.VideoDetails.Variants.OrderByDescending(x => x.Bitrate).First().URL;
-                default: return null;
-            }
-        }
-
-        public void EnsureTwitterIsReady()
-        {
-            _twitterSettingsRepository.GetTwitterUserApiSettings();
-            _twitterSettingsRepository.GetTwitterDevApiSettings();
+            var setUserData = new GetAndSaveTwitterAccountDataAction(_twitterUserSettingsRepository, _twitterDevSettingsRepository);
+            setUserData.Execute();
         }
     }
 }

@@ -6,24 +6,25 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
 using Twittoot.Twitter.Setup.Dtos;
-using Twittoot.Twitter.Setup.Repositories;
+using Twittot.Twitter.Std.Repositories;
 
 namespace Twittoot.Twitter.Setup
 {
     public interface ITwitterSyncService
     {
         ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1);
-        void EnsureTwitterIsReady();
     }
 
     public class TwitterSyncService : ITwitterSyncService
     {
-        private readonly ITwitterSettingsRepository _twitterSettingsRepository;
+        private readonly ITwitterUserSettingsRepository _twitterUserSettingsRepository;
+        private readonly ITwitterDevSettingsRepository _twitterDevSettingsRepository;
 
         #region Ctor
-        public TwitterSyncService(ITwitterSettingsRepository twitterSettingsRepository)
+        public TwitterSyncService(ITwitterUserSettingsRepository twitterUserSettingsRepository, ITwitterDevSettingsRepository twitterDevSettingsRepository)
         {
-            _twitterSettingsRepository = twitterSettingsRepository;
+            _twitterUserSettingsRepository = twitterUserSettingsRepository;
+            _twitterDevSettingsRepository = twitterDevSettingsRepository;
         }
         #endregion
 
@@ -32,8 +33,8 @@ namespace Twittoot.Twitter.Setup
             if(nberTweets > 200) 
                 throw new ArgumentException("More than 200 Tweets retrieval isn't supported");
 
-            var devSettings = _twitterSettingsRepository.GetTwitterDevApiSettings();
-            var userSettings = _twitterSettingsRepository.GetTwitterUserApiSettings();
+            var devSettings = _twitterDevSettingsRepository.GetTwitterDevApiSettings();
+            var userSettings = _twitterUserSettingsRepository.GetTwitterUserApiSettings();
             
             Auth.SetUserCredentials(devSettings.ConsumerKey, devSettings.ConsumerSecret, userSettings.AccessToken, userSettings.AccessTokenSecret);
             TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
@@ -93,12 +94,6 @@ namespace Twittoot.Twitter.Setup
                 case "video": return media.VideoDetails.Variants.OrderByDescending(x => x.Bitrate).First().URL;
                 default: return null;
             }
-        }
-
-        public void EnsureTwitterIsReady()
-        {
-            _twitterSettingsRepository.GetTwitterUserApiSettings();
-            _twitterSettingsRepository.GetTwitterDevApiSettings();
         }
     }
 }
