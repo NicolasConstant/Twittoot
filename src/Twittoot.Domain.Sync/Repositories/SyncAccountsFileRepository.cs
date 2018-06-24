@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Twittoot.Common;
 using Twittoot.Domain.Sync.Models;
@@ -19,24 +20,24 @@ namespace Twittoot.Domain.Sync.Repositories
         }
         #endregion
 
-        public SyncAccount[] GetAllAccounts()
+        public async Task<SyncAccount[]> GetAllAccounts()
         {
             var json = File.ReadAllText(_accountsFilePath);
             return JsonConvert.DeserializeObject<SyncAccount[]>(json);
         }
 
-        public void SaveAccounts(SyncAccount[] accounts)
+        public async Task SaveAccounts(SyncAccount[] accounts)
         {
             var json = JsonConvert.SerializeObject(accounts);
             File.WriteAllText(_accountsFilePath, json);
         }
 
-        public void UpdateAccount(SyncAccount account)
+        public async Task UpdateAccount(SyncAccount account)
         {
-            var allAccounts = GetAllAccounts().ToList();
+            var allAccounts = (await GetAllAccounts()).ToList();
             allAccounts.Remove(allAccounts.Find(x => x.Id == account.Id));
             allAccounts.Add(account);
-            SaveAccounts(allAccounts.ToArray());
+            await SaveAccounts(allAccounts.ToArray());
         }
     }
 }

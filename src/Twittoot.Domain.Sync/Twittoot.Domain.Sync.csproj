@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="WindowsAzure.Storage" Version="9.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Twittoot.Mastodon.Std\Twittoot.Mastodon.Std.csproj" />
     <ProjectReference Include="..\Twittoot.Common.Std\Twittoot.Common.Std.csproj" />
     <ProjectReference Include="..\Twittoot.Twitter.Std\Twittoot.Twitter.Std.csproj" />

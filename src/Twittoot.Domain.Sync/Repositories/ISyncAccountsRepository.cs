@@ -1,11 +1,12 @@
-﻿using Twittoot.Domain.Sync.Models;
+﻿using System.Threading.Tasks;
+using Twittoot.Domain.Sync.Models;
 
 namespace Twittoot.Domain.Sync.Repositories
 {
     public interface ISyncAccountsRepository
     {
-        SyncAccount[] GetAllAccounts();
-        void UpdateAccount(SyncAccount account);
-        void SaveAccounts(SyncAccount[] accounts);
+        Task<SyncAccount[]> GetAllAccounts();
+        Task UpdateAccount(SyncAccount account);
+        Task SaveAccounts(SyncAccount[] accounts);
     }
 }

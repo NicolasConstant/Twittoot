@@ -14,8 +14,8 @@ namespace Twittoot.Domain
     public interface ITwittootSetupFacade
     {
         Task RegisterNewAccountAsync();
-        SyncAccount[] GetAllAccounts();
-        void DeleteAccount(Guid accountId);
+        Task<SyncAccount[]> GetAllAccounts();
+        Task DeleteAccount(Guid accountId);
     }
 
     public class TwittootSetupFacade : ITwittootSetupFacade
@@ -66,20 +66,20 @@ namespace Twittoot.Domain
             };
 
             //Save new profil
-            var allAccounts = _syncAccountsRepository.GetAllAccounts().ToList();
+            var allAccounts = (await _syncAccountsRepository.GetAllAccounts()).ToList();
             allAccounts.Add(newSyncProfile);
-            _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
+            await _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
         }
 
-        public SyncAccount[] GetAllAccounts()
+        public async Task<SyncAccount[]> GetAllAccounts()
         {
-            return _syncAccountsRepository.GetAllAccounts();
+            return await _syncAccountsRepository.GetAllAccounts();
         }
 
-        public void DeleteAccount(Guid accountId)
+        public async Task DeleteAccount(Guid accountId)
         {
-            var allAccounts = _syncAccountsRepository.GetAllAccounts().Where(x => x.Id != accountId).Select(x => x).ToList();
-            _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
+            var allAccounts = (await _syncAccountsRepository.GetAllAccounts()).Where(x => x.Id != accountId).Select(x => x).ToList();
+            await _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
         }
     }
 }

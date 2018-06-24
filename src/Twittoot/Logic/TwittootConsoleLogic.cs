@@ -34,10 +34,10 @@ namespace Twittoot.Logic
                         await AddNewAccount();
                         break;
                     case "3": 
-                        ListAllAccount();
+                        await ListAllAccount();
                         break;
                     case "4":
-                        DeleteAccount();
+                        await DeleteAccount();
                         break;
                     case "5": return;
                 }
@@ -55,18 +55,18 @@ namespace Twittoot.Logic
             await _setupService.RegisterNewAccountAsync();
         }
 
-        private void ListAllAccount()
+        private async Task ListAllAccount()
         {
             Console.WriteLine();
-            var accounts = _setupService.GetAllAccounts();
+            var accounts = await _setupService.GetAllAccounts();
             foreach (var syncAccount in accounts)
                 Console.WriteLine($"{syncAccount.TwitterName} => {syncAccount.MastodonName}@{syncAccount.MastodonInstance}");
         }
 
-        private void DeleteAccount()
+        private async Task DeleteAccount()
         {
             Console.WriteLine();
-            var accounts = _setupService.GetAllAccounts();
+            var accounts = await _setupService.GetAllAccounts();
             for (var i = 0; i < accounts.Length; i++)
             {
                 var syncAccount = accounts[i];
@@ -83,7 +83,7 @@ namespace Twittoot.Logic
             }
 
             if (index <= accounts.Length && index > 0)
-                _setupService.DeleteAccount(accounts[--index].Id);
+                await _setupService.DeleteAccount(accounts[--index].Id);
         }
 
         private void DisplayMenu()

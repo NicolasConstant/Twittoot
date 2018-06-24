@@ -30,7 +30,7 @@ namespace Twittoot.Domain.Sync
 
         public async Task RunAsync()
         {
-            var accounts = _syncAccountsRepository.GetAllAccounts();
+            var accounts = await _syncAccountsRepository.GetAllAccounts();
             
             foreach (var syncAccount in accounts)
             {
