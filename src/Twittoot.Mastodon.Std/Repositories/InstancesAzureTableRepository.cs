@@ -93,7 +93,7 @@ namespace Twittoot.Mastodon.Std.Repositories
 
         public AppInfoEntity(AppInfoWrapper appInfo)
         {
-            PartitionKey = AzureTableTypesStruct.SyncAccount;
+            PartitionKey = AzureTableTypesStruct.Instance;
             RowKey = appInfo.InstanceUrl;
 
             Id = appInfo.id;
