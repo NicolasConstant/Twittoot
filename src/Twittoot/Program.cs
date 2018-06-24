@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +22,18 @@ namespace Twittoot
         {
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
-            var container = GetContainer();
+            IUnityContainer container;
+            if (args.Contains("azure"))
+            {
+                var azureCs = ConfigurationManager.AppSettings["AzureCs"];
+                var azureTable = ConfigurationManager.AppSettings["AzureTable"];
+                container = GetContainer(true, azureCs, azureTable);
+            }
+            else
+            {
+                container = GetContainer(false, string.Empty, string.Empty);
+            }
+
 
             if (args.Contains("setup"))
             {
@@ -36,10 +49,10 @@ namespace Twittoot
             }
         }
 
-        private static IUnityContainer GetContainer()
+        private static IUnityContainer GetContainer(bool useAzuerTable, string azureTableCs, string azureTableName)
         {
             var bootstrapper = new Bootstrapper();
-            return bootstrapper.CreateContainer();
+            return bootstrapper.CreateContainer(useAzuerTable, azureTableCs, azureTableName);
         }
     }
 

@@ -10,6 +10,7 @@ using Twittoot.Twitter;
 using Twittoot.Twitter.Setup;
 using Twittoot.Twitter.Std.Repositories;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 using Unity.RegistrationByConvention;
 
@@ -17,16 +18,31 @@ namespace Twittoot
 {
     public class Bootstrapper
     {
-        public IUnityContainer CreateContainer()
+        public IUnityContainer CreateContainer(bool useAzuerTable, string azureTableCs, string azureTableName)
         {
             var container = new UnityContainer();
             
-            //File system bootstrap
-            container.RegisterType<ISyncAccountsRepository, SyncAccountsFileRepository>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IInstancesRepository, InstancesFileRepository>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ITwitterDevSettingsRepository, TwitterDevSettingsFileRepository>(new ContainerControlledLifetimeManager());
-            container.RegisterType<ITwitterUserSettingsRepository, TwitterUserSettingsFileRepository>(new ContainerControlledLifetimeManager());
-            
+            if (useAzuerTable)
+            {
+                container.RegisterType<ISyncAccountsRepository, SyncAccountsAzureTableRepository>(new ContainerControlledLifetimeManager(), new InjectionConstructor(azureTableCs, azureTableName));
+                container.RegisterType<IInstancesRepository, InstancesAzureTableRepository>(
+                    new ContainerControlledLifetimeManager(), new InjectionConstructor(azureTableCs, azureTableName));
+                container.RegisterType<ITwitterDevSettingsRepository, TwitterDevSettingsAzureTableRepository>(
+                    new ContainerControlledLifetimeManager(), new InjectionConstructor(azureTableCs, azureTableName));
+                container.RegisterType<ITwitterUserSettingsRepository, TwitterUserSettingsAzureTableRepository>(
+                    new ContainerControlledLifetimeManager(), new InjectionConstructor(azureTableCs, azureTableName));
+            }
+            else
+            {
+                container.RegisterType<ISyncAccountsRepository, SyncAccountsFileRepository>(
+                    new ContainerControlledLifetimeManager());
+                container.RegisterType<IInstancesRepository, InstancesFileRepository>(
+                    new ContainerControlledLifetimeManager());
+                container.RegisterType<ITwitterDevSettingsRepository, TwitterDevSettingsFileRepository>(
+                    new ContainerControlledLifetimeManager());
+                container.RegisterType<ITwitterUserSettingsRepository, TwitterUserSettingsFileRepository>(
+                    new ContainerControlledLifetimeManager());
+            }
 
             container.RegisterType<ITwitterSetupService, TwitterSetupService>(new ContainerControlledLifetimeManager());
             container.RegisterType<ITwitterSyncService, TwitterSyncService>(new ContainerControlledLifetimeManager());
