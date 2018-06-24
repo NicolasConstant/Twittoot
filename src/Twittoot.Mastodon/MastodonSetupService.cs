@@ -57,26 +57,56 @@ namespace Twittoot.Mastodon.Setup
                 //Get Oauth Code
                 var oauthCodeUrl = authHandler.GetOauthCodeUrl(appInfo.client_id, AppScopeEnum.Read | AppScopeEnum.Write | AppScopeEnum.Follow);
 
-                var code = "";
-                var t = Task.Factory.StartNew
-                (
-                    () =>
-                    {
-                        var mastodonWindows = new MastodonOauth(oauthCodeUrl);
-                        mastodonWindows.ShowDialog();
-                        code = mastodonWindows.Code;
-                    },
-                    CancellationToken.None,
-                    TaskCreationOptions.None,
-                    TaskScheduler.FromCurrentSynchronizationContext()
-                );
-                
-                t.Wait();
+                //var code = "";
+                //var t = Task.Factory.StartNew
+                //(
+                //    () =>
+                //    {
+                //        var mastodonWindows = new MastodonOauth(oauthCodeUrl);
+                //        mastodonWindows.ShowDialog();
+                //        code = mastodonWindows.Code;
+                //    },
+                //    CancellationToken.None,
+                //    TaskCreationOptions.None,
+                //    TaskScheduler.FromCurrentSynchronizationContext()
+                //);
+
+                //t.Wait();
+
+                var code = GetCode(oauthCodeUrl);
 
                 //Get token
                 var token = await authHandler.GetTokenInfoAsync(appInfo.client_id, appInfo.client_secret, code);
                 return token.access_token;
             }
+        }
+
+        private string GetCode(string url)
+        {
+            // Create a thread
+            string code = null;
+            Thread newWindowThread = new Thread(new ThreadStart(() =>
+            {
+                // Create and show the Window
+                var tempWindow = new MastodonOauth(url);
+                tempWindow.ShowDialog();
+                code = tempWindow.Code;
+                // Start the Dispatcher Processing
+                System.Windows.Threading.Dispatcher.Run();
+            }));
+            // Set the apartment state
+            newWindowThread.SetApartmentState(ApartmentState.STA);
+            // Make the thread a background thread
+            newWindowThread.IsBackground = true;
+            // Start the thread
+            newWindowThread.Start();
+
+            while (code == null)
+            {
+                Thread.Sleep(100);
+            }
+
+            return code;
         }
     }
 }

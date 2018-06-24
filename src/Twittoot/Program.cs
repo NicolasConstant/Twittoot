@@ -73,6 +73,7 @@ namespace Twittoot
         {
             try
             {
+                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
                 _introDisplay.Run();
                 await _logic.RunAsync();
             }
