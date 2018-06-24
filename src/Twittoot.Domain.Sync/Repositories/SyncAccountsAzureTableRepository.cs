@@ -22,7 +22,7 @@ namespace Twittoot.Domain.Sync.Repositories
         }
         #endregion
 
-        public async Task<SyncAccount[]> GetAllAccounts()
+        public async Task<SyncAccount[]> GetAllAccountsAsync()
         {
             //Get table ref
             var table = await GetTable();
@@ -51,7 +51,7 @@ namespace Twittoot.Domain.Sync.Repositories
             return syncAccounts.ToArray();
         }
 
-        public async Task UpdateAccount(SyncAccount account)
+        public async Task UpdateAccountAsync(SyncAccount account)
         {
             //Get table ref
             var table = await GetTable();
@@ -62,7 +62,7 @@ namespace Twittoot.Domain.Sync.Repositories
             await table.ExecuteAsync(insertOperation);
         }
 
-        public async Task SaveAccounts(SyncAccount[] accounts)
+        public async Task SaveAccountsAsync(SyncAccount[] accounts)
         {
             //Get table ref
             var table = await GetTable();

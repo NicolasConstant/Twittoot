@@ -36,8 +36,8 @@ namespace Twittoot.Domain
         public async Task RegisterNewAccountAsync()
         {
             //Ensure Twitter client is properly set
-            var isTwitterSet = _twitterSetupService.IsTwitterSet();
-            if(!isTwitterSet) _twitterSetupService.InitAndSaveTwitterAccount();
+            var isTwitterSet = await _twitterSetupService.IsTwitterSetAsync();
+            if(!isTwitterSet) await _twitterSetupService.InitAndSaveTwitterAccountAsync();
 
             //Create mastodon profile
             Console.WriteLine();
@@ -66,20 +66,20 @@ namespace Twittoot.Domain
             };
 
             //Save new profil
-            var allAccounts = (await _syncAccountsRepository.GetAllAccounts()).ToList();
+            var allAccounts = (await _syncAccountsRepository.GetAllAccountsAsync()).ToList();
             allAccounts.Add(newSyncProfile);
-            await _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
+            await _syncAccountsRepository.SaveAccountsAsync(allAccounts.ToArray());
         }
 
         public async Task<SyncAccount[]> GetAllAccounts()
         {
-            return await _syncAccountsRepository.GetAllAccounts();
+            return await _syncAccountsRepository.GetAllAccountsAsync();
         }
 
         public async Task DeleteAccount(Guid accountId)
         {
-            var allAccounts = (await _syncAccountsRepository.GetAllAccounts()).Where(x => x.Id != accountId).Select(x => x).ToList();
-            await _syncAccountsRepository.SaveAccounts(allAccounts.ToArray());
+            var allAccounts = (await _syncAccountsRepository.GetAllAccountsAsync()).Where(x => x.Id != accountId).Select(x => x).ToList();
+            await _syncAccountsRepository.SaveAccountsAsync(allAccounts.ToArray());
         }
     }
 }

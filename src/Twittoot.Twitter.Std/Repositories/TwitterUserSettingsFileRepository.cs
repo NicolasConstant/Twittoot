@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Twittoot.Common;
 using Twittoot.Twitter.Setup.Settings;
@@ -9,7 +10,7 @@ namespace Twittoot.Twitter.Std.Repositories
     {
         private const string UserSettingsFileName = "Settings.User.json";
 
-        public TwitterUserApiSettings GetTwitterUserApiSettings()
+        public async Task<TwitterUserApiSettings> GetTwitterUserApiSettingsAsync()
         {
             var userSettingPath = TwittootLocation.GetUserFilePath(UserSettingsFileName);
             if (!File.Exists(userSettingPath)) return null;
@@ -19,7 +20,7 @@ namespace Twittoot.Twitter.Std.Repositories
             return userSettings;
         }
 
-        public void SaveTwitterUserApiSettings(TwitterUserApiSettings settings)
+        public async Task SaveTwitterUserApiSettingsAsync(TwitterUserApiSettings settings)
         {
             var userSettingPath = TwittootLocation.GetUserFilePath(UserSettingsFileName);
             var json = JsonConvert.SerializeObject(settings);

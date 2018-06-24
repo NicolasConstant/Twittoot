@@ -20,24 +20,24 @@ namespace Twittoot.Domain.Sync.Repositories
         }
         #endregion
 
-        public async Task<SyncAccount[]> GetAllAccounts()
+        public async Task<SyncAccount[]> GetAllAccountsAsync()
         {
             var json = File.ReadAllText(_accountsFilePath);
             return JsonConvert.DeserializeObject<SyncAccount[]>(json);
         }
 
-        public async Task SaveAccounts(SyncAccount[] accounts)
+        public async Task SaveAccountsAsync(SyncAccount[] accounts)
         {
             var json = JsonConvert.SerializeObject(accounts);
             File.WriteAllText(_accountsFilePath, json);
         }
 
-        public async Task UpdateAccount(SyncAccount account)
+        public async Task UpdateAccountAsync(SyncAccount account)
         {
-            var allAccounts = (await GetAllAccounts()).ToList();
+            var allAccounts = (await GetAllAccountsAsync()).ToList();
             allAccounts.Remove(allAccounts.Find(x => x.Id == account.Id));
             allAccounts.Add(account);
-            await SaveAccounts(allAccounts.ToArray());
+            await SaveAccountsAsync(allAccounts.ToArray());
         }
     }
 }

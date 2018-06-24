@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Twittoot.Twitter.Setup.Settings;
 using Twittoot.Twitter.Setup.Tools;
 using Twittoot.Twitter.Std.Repositories;
@@ -18,9 +19,9 @@ namespace Twittoot.Twitter.Setup.Actions
         }
         #endregion
 
-        public void Execute()
+        public async Task ExecuteAsync()
         {
-            var devSettings = _twitterDevSettingsRepository.GetTwitterDevApiSettings();
+            var devSettings = await _twitterDevSettingsRepository.GetTwitterDevApiSettingsAsync();
             if(devSettings == null) throw new Exception("Please set properly Twitter API keys.");
 
             var pinAuthenticator = new PinAuthenticator(devSettings);
@@ -32,7 +33,7 @@ namespace Twittoot.Twitter.Setup.Actions
                 AccessTokenSecret = creds.AccessTokenSecret
             };
 
-            _twitterUserSettingsRepository.SaveTwitterUserApiSettings(userSettings);
+            await _twitterUserSettingsRepository.SaveTwitterUserApiSettingsAsync(userSettings);
         }
     }
 }

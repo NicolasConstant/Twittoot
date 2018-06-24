@@ -1,10 +1,11 @@
-﻿using Twittoot.Twitter.Setup.Settings;
+﻿using System.Threading.Tasks;
+using Twittoot.Twitter.Setup.Settings;
 
 namespace Twittoot.Twitter.Std.Repositories
 {
     public interface ITwitterUserSettingsRepository
     {
-        TwitterUserApiSettings GetTwitterUserApiSettings();
-        void SaveTwitterUserApiSettings(TwitterUserApiSettings settings);
+        Task<TwitterUserApiSettings> GetTwitterUserApiSettingsAsync();
+        Task SaveTwitterUserApiSettingsAsync(TwitterUserApiSettings settings);
     }
 }

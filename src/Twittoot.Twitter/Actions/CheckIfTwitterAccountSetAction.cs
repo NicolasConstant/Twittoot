@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Twittoot.Twitter.Std.Repositories;
 
 namespace Twittoot.Twitter.Setup.Actions
@@ -14,11 +15,11 @@ namespace Twittoot.Twitter.Setup.Actions
         }
         #endregion
 
-        public bool Execute()
+        public async Task<bool> ExecuteAsync()
         {
             try
             {
-                var settings = _twitterUserSettingsRepository.GetTwitterUserApiSettings();
+                var settings = await _twitterUserSettingsRepository.GetTwitterUserApiSettingsAsync();
                 return settings != null;
             }
             catch (Exception e)

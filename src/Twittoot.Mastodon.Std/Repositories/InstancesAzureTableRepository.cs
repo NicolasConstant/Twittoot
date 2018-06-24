@@ -1,15 +1,16 @@
-﻿using Twittoot.Mastodon.Std.Models;
+﻿using System.Threading.Tasks;
+using Twittoot.Mastodon.Std.Models;
 
 namespace Twittoot.Mastodon.Std.Repositories
 {
     public class InstancesAzureTableRepository : IInstancesRepository
     {
-        public AppInfoWrapper[] GetAllInstances()
+        public async Task<AppInfoWrapper[]> GetAllInstancesAsync()
         {
             throw new System.NotImplementedException();
         }
 
-        public void SaveInstances(AppInfoWrapper[] instances)
+        public async Task SaveInstancesAsync(AppInfoWrapper[] instances)
         {
             throw new System.NotImplementedException();
         }

@@ -24,10 +24,10 @@ namespace Twittoot.Domain.Sync.BusinessRules
             _syncAccountsRepository = syncAccountsRepository;
         }
 
-        public async Task Execute()
+        public async Task ExecuteAsync()
         {
             //Get tweets
-            var lastTweets = GetTweetsUntilLastSync(_syncAccount.LastSyncTweetId).OrderBy(x => x.Id).ToList();
+            var lastTweets = (await GetTweetsUntilLastSyncAsync(_syncAccount.LastSyncTweetId)).OrderBy(x => x.Id).ToList();
 
             //Sync
             if (lastTweets.Count == 0) return;
@@ -51,12 +51,12 @@ namespace Twittoot.Domain.Sync.BusinessRules
 
             //Update profile
             _syncAccount.LastSyncTweetId = lastTweets.Select(x => x.Id).Max();
-            _syncAccountsRepository.UpdateAccount(_syncAccount);
+            await _syncAccountsRepository.UpdateAccountAsync(_syncAccount);
         }
 
-        private IEnumerable<ExtractedTweet> GetTweetsUntilLastSync(long lastSyncTweetId)
+        private async Task<IEnumerable<ExtractedTweet>> GetTweetsUntilLastSyncAsync(long lastSyncTweetId)
         {
-            var firstTweets = GetTweets(5).ToList();
+            var firstTweets = (await GetTweetsAsync(5)).ToList();
 
             //First time synchronisation
             if (lastSyncTweetId == -1) return firstTweets.FindAll(x => IsNotAutoRetweet(x));
@@ -66,16 +66,16 @@ namespace Twittoot.Domain.Sync.BusinessRules
             allTweets.AddRange(firstTweets);
             while (!allTweets.Any(x => x.Id <= lastSyncTweetId))
             {
-                var nextTweets = GetTweets(50, allTweets.Select(x => x.Id).Min());
+                var nextTweets = await GetTweetsAsync(50, allTweets.Select(x => x.Id).Min());
                 allTweets.AddRange(nextTweets);
             }
 
             return allTweets.FindAll(x => x.Id > lastSyncTweetId && IsNotAutoRetweet(x));
         }
 
-        private ExtractedTweet[] GetTweets(int nbTweets, long lastTweetId = -1)
+        private async Task<ExtractedTweet[]> GetTweetsAsync(int nbTweets, long lastTweetId = -1)
         {
-            return _twitterService.GetUserTweets(_syncAccount.TwitterName, nbTweets, false, lastTweetId);
+            return await _twitterService.GetUserTweetsAsync(_syncAccount.TwitterName, nbTweets, false, lastTweetId);
         }
 
         private bool IsNotAutoRetweet(ExtractedTweet tweet)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.Entities;
@@ -12,7 +13,7 @@ namespace Twittoot.Twitter.Setup
 {
     public interface ITwitterSyncService
     {
-        ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1);
+        Task<ExtractedTweet[]> GetUserTweetsAsync(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1);
     }
 
     public class TwitterSyncService : ITwitterSyncService
@@ -28,13 +29,13 @@ namespace Twittoot.Twitter.Setup
         }
         #endregion
 
-        public ExtractedTweet[] GetUserTweets(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1)
+        public async Task<ExtractedTweet[]> GetUserTweetsAsync(string twitterUserName, int nberTweets, bool returnReplies = true, long fromTweetId = -1)
         {
             if(nberTweets > 200) 
                 throw new ArgumentException("More than 200 Tweets retrieval isn't supported");
 
-            var devSettings = _twitterDevSettingsRepository.GetTwitterDevApiSettings();
-            var userSettings = _twitterUserSettingsRepository.GetTwitterUserApiSettings();
+            var devSettings = await _twitterDevSettingsRepository.GetTwitterDevApiSettingsAsync();
+            var userSettings = await _twitterUserSettingsRepository.GetTwitterUserApiSettingsAsync();
             
             Auth.SetUserCredentials(devSettings.ConsumerKey, devSettings.ConsumerSecret, userSettings.AccessToken, userSettings.AccessTokenSecret);
             TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;

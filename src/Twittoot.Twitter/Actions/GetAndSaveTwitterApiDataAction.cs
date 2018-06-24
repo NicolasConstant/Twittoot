@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Twittoot.Twitter.Setup.Settings;
 using Twittoot.Twitter.Std.Repositories;
 
@@ -15,7 +16,7 @@ namespace Twittoot.Twitter.Setup.Actions
         }
         #endregion
 
-        public void Execute()
+        public async Task ExecuteAsync()
         {
             Console.WriteLine();
             Console.WriteLine("Provide Twitter API Consumer Key");
@@ -31,7 +32,7 @@ namespace Twittoot.Twitter.Setup.Actions
                 ConsumerSecret = consumerSecret
             };
 
-            _twitterDevSettingsRepository.SaveTwitterDevApiSettings(settings);
+            await _twitterDevSettingsRepository.SaveTwitterDevApiSettingsAsync(settings);
         }
     }
 }

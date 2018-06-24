@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Twittoot.Common;
 using Twittoot.Mastodon.Std.Models;
@@ -18,13 +19,13 @@ namespace Twittoot.Mastodon.Std.Repositories
         }
         #endregion
 
-        public AppInfoWrapper[] GetAllInstances()
+        public async Task<AppInfoWrapper[]> GetAllInstancesAsync()
         {
             var json = File.ReadAllText(_instancesFilePath);
             return JsonConvert.DeserializeObject<AppInfoWrapper[]>(json);
         }
 
-        public void SaveInstances(AppInfoWrapper[] instances)
+        public async Task SaveInstancesAsync(AppInfoWrapper[] instances)
         {
             var json = JsonConvert.SerializeObject(instances);
             File.WriteAllText(_instancesFilePath, json);

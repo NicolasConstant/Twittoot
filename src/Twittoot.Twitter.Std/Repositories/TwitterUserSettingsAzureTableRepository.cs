@@ -1,15 +1,16 @@
-﻿using Twittoot.Twitter.Setup.Settings;
+﻿using System.Threading.Tasks;
+using Twittoot.Twitter.Setup.Settings;
 
 namespace Twittoot.Twitter.Std.Repositories
 {
     public class TwitterUserSettingsAzureTableRepository : ITwitterUserSettingsRepository
     {
-        public TwitterUserApiSettings GetTwitterUserApiSettings()
+        public async Task<TwitterUserApiSettings> GetTwitterUserApiSettingsAsync()
         {
             throw new System.NotImplementedException();
         }
 
-        public void SaveTwitterUserApiSettings(TwitterUserApiSettings settings)
+        public async Task SaveTwitterUserApiSettingsAsync(TwitterUserApiSettings settings)
         {
             throw new System.NotImplementedException();
         }

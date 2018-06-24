@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.Entities;
@@ -13,8 +14,8 @@ namespace Twittoot.Twitter.Setup
 {
     public interface ITwitterSetupService
     {
-        bool IsTwitterSet();
-        void InitAndSaveTwitterAccount();
+        Task<bool> IsTwitterSetAsync();
+        Task InitAndSaveTwitterAccountAsync();
     }
 
     public class TwitterSetupService : ITwitterSetupService
@@ -30,37 +31,37 @@ namespace Twittoot.Twitter.Setup
         }
         #endregion
         
-        public bool IsTwitterSet()
+        public async Task<bool> IsTwitterSetAsync()
         {
-            return ApiIsSet() && UserIsSet();
+            return await ApiIsSetAsync() && await UserIsSetAsync();
         }
 
-        public void InitAndSaveTwitterAccount()
+        public async Task InitAndSaveTwitterAccountAsync()
         {
-            if (!ApiIsSet())
+            if (!await ApiIsSetAsync())
             {
                 var setApiData = new GetAndSaveTwitterApiDataAction(_twitterDevSettingsRepository);
-                setApiData.Execute();
+                await setApiData.ExecuteAsync();
             }
 
-            if (!UserIsSet())
+            if (!await UserIsSetAsync())
             {
                 var setUserData = new GetAndSaveTwitterAccountDataAction(_twitterUserSettingsRepository, _twitterDevSettingsRepository);
-                setUserData.Execute();
+                await setUserData.ExecuteAsync();
             }
         }
 
-        private bool ApiIsSet()
+        private async Task<bool> ApiIsSetAsync()
         {
             var checkIfTwitterApiInfoSet = new CheckIfTwitterApiInfoSetAction(_twitterDevSettingsRepository);
-            var apiSet = checkIfTwitterApiInfoSet.Execute();
+            var apiSet = await checkIfTwitterApiInfoSet.ExecuteAsync();
             return apiSet;
         }
 
-        private bool UserIsSet()
+        private async Task<bool> UserIsSetAsync()
         {
             var checkIfTwitterAccountSet = new CheckIfTwitterAccountSetAction(_twitterUserSettingsRepository);
-            var accountSet = checkIfTwitterAccountSet.Execute();
+            var accountSet = await checkIfTwitterAccountSet.ExecuteAsync();
             return accountSet;
         }
     }

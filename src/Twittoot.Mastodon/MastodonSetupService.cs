@@ -30,7 +30,7 @@ namespace Twittoot.Mastodon.Setup
 
         public async Task<AppInfoWrapper> GetAppInfoAsync(string mastodonInstanceUrl)
         {
-            var instances = _instancesRepository.GetAllInstances().ToList();
+            var instances = (await _instancesRepository.GetAllInstancesAsync()).ToList();
             if (instances.Any(x => x.InstanceUrl == mastodonInstanceUrl))
                 return instances.Find(x => x.InstanceUrl == mastodonInstanceUrl);
 
@@ -44,7 +44,7 @@ namespace Twittoot.Mastodon.Setup
 
             //Save it
             instances.Add(appDataWrapper);
-            _instancesRepository.SaveInstances(instances.ToArray());
+            await _instancesRepository.SaveInstancesAsync(instances.ToArray());
 
             //Returns 
             return appDataWrapper;
