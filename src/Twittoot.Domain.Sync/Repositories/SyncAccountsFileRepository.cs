@@ -6,20 +6,13 @@ using Twittoot.Domain.Sync.Models;
 
 namespace Twittoot.Domain.Sync.Repositories
 {
-    public interface ISyncAccountsRepository
-    {
-        SyncAccount[] GetAllAccounts();
-        void UpdateAccount(SyncAccount account);
-        void SaveAccounts(SyncAccount[] accounts);
-    }
-
-    public class SyncAccountsRepository : ISyncAccountsRepository
+    public class SyncAccountsFileRepository : ISyncAccountsRepository
     {
         private const string AccountsFileName = "SavedAccounts.json";
         private readonly string _accountsFilePath = TwittootLocation.GetUserFilePath(AccountsFileName);
 
         #region Ctor
-        public SyncAccountsRepository()
+        public SyncAccountsFileRepository()
         {
             var json = JsonConvert.SerializeObject(new SyncAccount[0]);
             if (!File.Exists(_accountsFilePath)) File.WriteAllText(_accountsFilePath, json);

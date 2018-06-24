@@ -5,8 +5,10 @@ using Twittoot.Domain.Sync.Repositories;
 using Twittoot.Mastodon;
 using Twittoot.Mastodon.Setup;
 using Twittoot.Mastodon.Std;
+using Twittoot.Mastodon.Std.Repositories;
 using Twittoot.Twitter;
 using Twittoot.Twitter.Setup;
+using Twittoot.Twitter.Std.Repositories;
 using Unity;
 using Unity.Lifetime;
 using Unity.RegistrationByConvention;
@@ -19,7 +21,13 @@ namespace Twittoot
         {
             var container = new UnityContainer();
             
-            container.RegisterType<ISyncAccountsRepository, SyncAccountsRepository>(new ContainerControlledLifetimeManager());
+            //File system bootstrap
+            container.RegisterType<ISyncAccountsRepository, SyncAccountsFileRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IInstancesRepository, InstancesFileRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ITwitterDevSettingsRepository, TwitterDevSettingsFileRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ITwitterUserSettingsRepository, TwitterUserSettingsFileRepository>(new ContainerControlledLifetimeManager());
+            
+
             container.RegisterType<ITwitterSetupService, TwitterSetupService>(new ContainerControlledLifetimeManager());
             container.RegisterType<ITwitterSyncService, TwitterSyncService>(new ContainerControlledLifetimeManager());
             container.RegisterType<IMastodonSetupService, MastodonSetupService>(new ContainerControlledLifetimeManager());

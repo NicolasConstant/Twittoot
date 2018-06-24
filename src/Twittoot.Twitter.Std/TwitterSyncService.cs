@@ -6,7 +6,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
 using Twittoot.Twitter.Setup.Dtos;
-using Twittot.Twitter.Std.Repositories;
+using Twittoot.Twitter.Std.Repositories;
 
 namespace Twittoot.Twitter.Setup
 {

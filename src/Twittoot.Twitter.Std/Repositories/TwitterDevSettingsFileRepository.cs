@@ -1,18 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Newtonsoft.Json;
 using Twittoot.Common;
 using Twittoot.Twitter.Setup.Settings;
 
-namespace Twittot.Twitter.Std.Repositories
+namespace Twittoot.Twitter.Std.Repositories
 {
-    public interface ITwitterDevSettingsRepository
-    {
-        TwitterDevApiSettings GetTwitterDevApiSettings();
-        void SaveTwitterDevApiSettings(TwitterDevApiSettings settings);
-    }
-
-    public class TwitterDevSettingsRepository : ITwitterDevSettingsRepository
+    public class TwitterDevSettingsFileRepository : ITwitterDevSettingsRepository
     {
         private const string DevSettingsFileName = "Settings.Dev.json";
         

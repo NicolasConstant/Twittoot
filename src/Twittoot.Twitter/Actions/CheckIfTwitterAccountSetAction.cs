@@ -1,5 +1,5 @@
 ﻿using System;
-using Twittot.Twitter.Std.Repositories;
+using Twittoot.Twitter.Std.Repositories;
 
 namespace Twittoot.Twitter.Setup.Actions
 {
