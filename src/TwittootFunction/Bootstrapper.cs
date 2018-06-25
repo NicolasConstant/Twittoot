@@ -39,11 +39,18 @@ namespace TwittootFunction
                 WithName.Default,
                 WithLifetime.ContainerControlled);
 
-            // Register all other types
+            // Register facades
             container.RegisterTypes(
-                AllClasses.FromLoadedAssemblies(),
+                AllClasses.FromLoadedAssemblies().Where(x => x.Name.EndsWith("Facade")),
                 WithMappings.FromMatchingInterface,
-                WithName.Default);
+                WithName.Default,
+                WithLifetime.ContainerControlled);
+        
+            //// Register all other types
+            //container.RegisterTypes(
+            //    AllClasses.FromLoadedAssemblies(),
+            //    WithMappings.FromMatchingInterface,
+            //    WithName.Default);
 
             return container;
         }
