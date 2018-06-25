@@ -47,11 +47,10 @@ namespace Twittoot.Domain.Sync.BusinessRules
                 }
 
                 await _mastodonService.SubmitTootAsync(_syncAccount.MastodonAccessToken, _syncAccount.MastodonInstance, messageContent, mediasIds);
+                //Update profile
+                _syncAccount.LastSyncTweetId = lastTweet.Id;
+                await _syncAccountsRepository.UpdateAccountAsync(_syncAccount);
             }
-
-            //Update profile
-            _syncAccount.LastSyncTweetId = lastTweets.Select(x => x.Id).Max();
-            await _syncAccountsRepository.UpdateAccountAsync(_syncAccount);
         }
 
         private async Task<IEnumerable<ExtractedTweet>> GetTweetsUntilLastSyncAsync(long lastSyncTweetId)
