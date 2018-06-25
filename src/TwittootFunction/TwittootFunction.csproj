@@ -1,10 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.13" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Unity.NetCore" Version="4.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Twittoot.Common.Std\Twittoot.Common.Std.csproj" />
+    <ProjectReference Include="..\Twittoot.Domain.Sync\Twittoot.Domain.Sync.csproj" />
+    <ProjectReference Include="..\Twittoot.Mastodon.Std\Twittoot.Mastodon.Std.csproj" />
+    <ProjectReference Include="..\Twittoot.Twitter.Std\Twittoot.Twitter.Std.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
