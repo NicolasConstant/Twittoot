@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Twittoot.Domain.Sync.Factories;
 using Twittoot.Domain.Sync.Repositories;
 using Twittoot.Mastodon.Std;
@@ -31,12 +32,23 @@ namespace Twittoot.Domain.Sync
         public async Task RunAsync()
         {
             var accounts = await _syncAccountsRepository.GetAllAccountsAsync();
-            
+            Exception exceptionDuringProcess = null;
+
             foreach (var syncAccount in accounts)
             {
-                var action = _processAccountSyncFactory.GetAccountSync(syncAccount);
-                await action.ExecuteAsync();
+                try
+                {
+                    var action = _processAccountSyncFactory.GetAccountSync(syncAccount);
+                    await action.ExecuteAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    exceptionDuringProcess = e;
+                }
             }
+
+            if(exceptionDuringProcess != null) throw exceptionDuringProcess;
         }
     }
 }

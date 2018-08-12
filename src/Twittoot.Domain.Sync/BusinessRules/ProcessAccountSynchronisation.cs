@@ -56,6 +56,7 @@ namespace Twittoot.Domain.Sync.BusinessRules
         private async Task<IEnumerable<ExtractedTweet>> GetTweetsUntilLastSyncAsync(long lastSyncTweetId)
         {
             var firstTweets = (await GetTweetsAsync(5)).ToList();
+            if (firstTweets.Count == 0) return new ExtractedTweet[0];
 
             //First time synchronisation
             if (lastSyncTweetId == -1) return firstTweets.FindAll(x => IsNotAutoRetweet(x));
@@ -81,10 +82,5 @@ namespace Twittoot.Domain.Sync.BusinessRules
         {
             return !tweet.MessageContent.Trim().StartsWith($"[RT {_syncAccount.TwitterName}]");
         }
-
-        //private bool IsNotTweetResponse(ExtractedTweet tweet)
-        //{
-        //    return !tweet.MessageContent.Trim().StartsWith("@");
-        //}
     }
 }
