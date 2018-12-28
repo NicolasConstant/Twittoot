@@ -67,6 +67,10 @@ namespace Twittoot.Domain.Sync.BusinessRules
             while (!allTweets.Any(x => x.Id <= lastSyncTweetId))
             {
                 var nextTweets = await GetTweetsAsync(50, allTweets.Select(x => x.Id).Min());
+
+                //Do not continue if no new tweets are found
+                if (!nextTweets.Any()) break;
+
                 allTweets.AddRange(nextTweets);
             }
 
