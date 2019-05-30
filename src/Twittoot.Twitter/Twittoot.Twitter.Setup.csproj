@@ -99,32 +99,35 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Tweetinvi, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\TweetinviAPI.4.0.0\lib\net461\Tweetinvi.dll</HintPath>
+    <Reference Include="Tweetinvi, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi.Controllers, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\TweetinviAPI.4.0.0\lib\net461\Tweetinvi.Controllers.dll</HintPath>
+    <Reference Include="Tweetinvi.Controllers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Controllers.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\TweetinviAPI.4.0.0\lib\net461\Tweetinvi.Core.dll</HintPath>
+    <Reference Include="Tweetinvi.Core, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi.Credentials, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\TweetinviAPI.4.0.0\lib\net461\Tweetinvi.Credentials.dll</HintPath>
+    <Reference Include="Tweetinvi.Credentials, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Credentials.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi.Factories, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\TweetinviAPI.4.0.0\lib\net461\Tweetinvi.Factories.dll</HintPath>
+    <Reference Include="Tweetinvi.Factories, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Factories.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi.Logic, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\TweetinviAPI.4.0.0\lib\net461\Tweetinvi.Logic.dll</HintPath>
+    <Reference Include="Tweetinvi.Logic, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Logic.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\TweetinviAPI.4.0.0\lib\net461\Tweetinvi.Security.dll</HintPath>
+    <Reference Include="Tweetinvi.Security, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Security.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi.Streams, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\TweetinviAPI.4.0.0\lib\net461\Tweetinvi.Streams.dll</HintPath>
+    <Reference Include="Tweetinvi.Streams, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Streams.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi.WebLogic, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\TweetinviAPI.4.0.0\lib\net461\Tweetinvi.WebLogic.dll</HintPath>
+    <Reference Include="Tweetinvi.Webhooks, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.Webhooks.dll</HintPath>
+    </Reference>
+    <Reference Include="Tweetinvi.WebLogic, Version=4.0.1.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetinviAPI.4.0.1\lib\net461\Tweetinvi.WebLogic.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
